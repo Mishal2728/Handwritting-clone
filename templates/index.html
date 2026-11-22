@@ -1,2469 +1,1850 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-scheme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Handwriting Studio — Archival Text-to-Manuscript Atelier</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptorium — Manuscript Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
   <style>
-    /* ══════════════════════════════════════════════════════════════════════════
-       1. EXPERIMENTAL ATELIER DESIGN SYSTEM — "The Lithographer's Desk"
-       ══════════════════════════════════════════════════════════════════════════ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SCRIPTORIUM OS — Design System v3
+       Aesthetic: Type Foundry × Japanese Stationery × Editorial Magazine
+       Color: Pure Black / Bone White / Single Crimson Accent
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     :root {
-      /* Studio Dark: Archival Carbon & Warm Silt */
-      --obsidian-bed: #0c0d10;
-      --desk-wood: #131418;
-      --drawer-steel: #1a1b22;
-      --brass-plate: #22242e;
-      --carbon-input: #08090b;
+      --ink:         #0a0a0a;
+      --ink-mid:     #1a1a1a;
+      --ink-soft:    #252525;
+      --ink-muted:   #3a3a3a;
+      --bone:        #f5f2ea;
+      --bone-mid:    #e8e3d7;
+      --bone-soft:   #ccc8bb;
+      --ash:         #888480;
+      --ash-mid:     #5a5755;
+      --rule:        rgba(255,255,255,0.07);
+      --rule-mid:    rgba(255,255,255,0.12);
+      --rule-focus:  rgba(255,255,255,0.22);
+      --crimson:     #c0392b;
+      --crimson-glow:rgba(192,57,43,0.25);
+      --amber:       #d4a847;
+      --amber-soft:  rgba(212,168,71,0.15);
+      --cobalt:      #2563eb;
+      --cobalt-soft: rgba(37,99,235,0.18);
 
-      --hairline-rule: rgba(255, 255, 255, 0.08);
-      --hairline-focus: rgba(255, 255, 255, 0.22);
-      --gold-rule: rgba(212, 175, 55, 0.45);
+      --ff-display:  'Playfair Display', 'DM Serif Display', Georgia, serif;
+      --ff-mono:     'Space Mono', 'Courier New', monospace;
+      --ff-body:     'Inter', system-ui, sans-serif;
 
-      --type-vellum: #f4f3ed;
-      --type-ash: #9b9da7;
-      --type-soot: #595c68;
+      --r0: 0px;
+      --r1: 2px;
+      --r2: 4px;
 
-      /* Signature Inks */
-      --quink-blue: #1e56d4;
-      --quink-blue-glow: rgba(30, 86, 212, 0.35);
-      --iron-gall: #101114;
-      --vermilion-seal: #cf3326;
-      --aurum-gold: #c89d38;
-      --emerald-moss: #15803d;
-
-      /* Material Paper Bed */
-      --paper-vellum-sheet: #fbf9f4;
-      --stack-shadow: 
-        0 1px 1px rgba(0,0,0,0.4),
-        0 8px 18px -4px rgba(0,0,0,0.6),
-        0 24px 56px -12px rgba(0,0,0,0.85);
-
-      /* Typography Scales */
-      --font-display: "Syne", "Cinzel", -apple-system, sans-serif;
-      --font-body: "Plus Jakarta Sans", -apple-system, sans-serif;
-      --font-tech: "JetBrains Mono", ui-monospace, Menlo, monospace;
-
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 14px;
-      --radius-full: 9999px;
-
-      --trans-instant: 120ms cubic-bezier(0.16, 1, 0.3, 1);
-      --trans-smooth: 240ms cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-expo:   cubic-bezier(0.19, 1, 0.22, 1);
+      --ease-snap:   cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    [data-theme="light"] {
-      /* Archival Parchment Mode: Fine Deckle Paper & Bronze */
-      --obsidian-bed: #f4f1e8;
-      --desk-wood: #ffffff;
-      --drawer-steel: #ebe7dc;
-      --brass-plate: #dfdbce;
-      --carbon-input: #ffffff;
-
-      --hairline-rule: rgba(30, 25, 20, 0.12);
-      --hairline-focus: rgba(30, 25, 20, 0.28);
-      --gold-rule: rgba(180, 130, 30, 0.5);
-
-      --type-vellum: #15161a;
-      --type-ash: #52545d;
-      --type-soot: #878a96;
-
-      --quink-blue: #1440a8;
-      --quink-blue-glow: rgba(20, 64, 168, 0.18);
-      --aurum-gold: #9e7520;
-
-      --paper-vellum-sheet: #ffffff;
-      --stack-shadow: 
-        0 1px 2px rgba(40,30,20,0.1),
-        0 10px 25px -5px rgba(40,30,20,0.15),
-        0 20px 48px -10px rgba(40,30,20,0.2);
+    [data-scheme="light"] {
+      --ink:         #f5f2ea;
+      --ink-mid:     #ebe6d8;
+      --ink-soft:    #dfd9c8;
+      --ink-muted:   #ccc6b4;
+      --bone:        #0d0d0d;
+      --bone-mid:    #222;
+      --bone-soft:   #555;
+      --ash:         #777;
+      --ash-mid:     #999;
+      --rule:        rgba(0,0,0,0.07);
+      --rule-mid:    rgba(0,0,0,0.12);
+      --rule-focus:  rgba(0,0,0,0.22);
+      --crimson:     #a01f14;
+      --crimson-glow:rgba(160,31,20,0.15);
     }
 
-    /* Core Resets */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
+    html { height: 100%; font-size: 13px; }
+
+    body {
       height: 100%;
       overflow: hidden;
-      background-color: var(--obsidian-bed);
-      color: var(--type-vellum);
-      font-family: var(--font-body);
-      font-size: 13px;
-      line-height: 1.5;
+      background: var(--ink);
+      color: var(--bone);
+      font-family: var(--ff-body);
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      cursor: default;
     }
 
-    /* ══════════════════════════════════════════════════════════════════════════
-       2. SIGNATURE ATELIER CHROME & MASTHEAD
-       ══════════════════════════════════════════════════════════════════════════ */
-    .atelier-shell {
+    /* ═══ CUSTOM CURSOR ════════════════════════════════════════════════════ */
+    .cursor-dot {
+      position: fixed;
+      width: 6px; height: 6px;
+      background: var(--crimson);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.08s var(--ease-snap), opacity 0.2s;
+      transform: translate(-50%,-50%);
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 28px; height: 28px;
+      border: 1px solid rgba(192,57,43,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.22s var(--ease-expo), width 0.22s, height 0.22s, opacity 0.3s;
+      transform: translate(-50%,-50%);
+    }
+
+    /* ═══ GRID BACKGROUND ══════════════════════════════════════════════════ */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(var(--rule) 1px, transparent 1px),
+        linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.5;
+    }
+
+    /* ═══ APP SHELL ════════════════════════════════════════════════════════ */
+    #app {
+      position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
+    }
+
+    /* ═══ MASTHEAD ══════════════════════════════════════════════════════════
+       Oversized editorial logotype — the brand is the typography
+    ══════════════════════════════════════════════════════════════════════════ */
+    .masthead {
+      flex-shrink: 0;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+      background: var(--ink);
+    }
+
+    /* Vertical rule accent on the left */
+    .masthead::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--crimson);
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    .brand-name {
+      font-family: var(--ff-display);
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--bone);
+      line-height: 1;
+      font-style: italic;
+    }
+
+    .brand-name em {
+      font-style: normal;
+      color: var(--crimson);
+    }
+
+    .brand-edition {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      color: var(--ash);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid var(--rule-mid);
+      padding: 2px 6px;
+    }
+
+    .masthead-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .nav-pill {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ash);
+      padding: 4px 10px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s var(--ease-snap);
+      background: none;
+    }
+    .nav-pill:hover {
+      color: var(--bone);
+      border-color: var(--rule-mid);
+    }
+    .nav-pill.active {
+      color: var(--bone);
+      border-color: var(--rule-mid);
+      background: var(--ink-soft);
+    }
+
+    .masthead-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Ghost Button */
+    .btn-ghost {
+      height: 30px;
+      padding: 0 12px;
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ash);
+      background: none;
+      border: 1px solid var(--rule-mid);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.14s var(--ease-snap);
+    }
+    .btn-ghost:hover {
+      color: var(--bone);
+      border-color: var(--rule-focus);
+      background: var(--ink-soft);
+    }
+    .btn-ghost:active { transform: scale(0.97); }
+
+    /* Strike Button — Primary CTA */
+    .btn-strike {
+      height: 32px;
+      padding: 0 16px;
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--crimson);
+      border: 1px solid var(--crimson);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.14s var(--ease-snap);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-strike::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s var(--ease-expo);
+    }
+    .btn-strike:hover::before { transform: translateX(0); }
+    .btn-strike:hover { box-shadow: 0 0 24px var(--crimson-glow); }
+    .btn-strike:active { transform: scale(0.97); }
+
+    /* ═══ WORKSPACE ═════════════════════════════════════════════════════════ */
+    .workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ═══ COMPOSING PANE (LEFT) ═════════════════════════════════════════════
+       Full editorial: oversized label, raw textarea, monospace metrics
+    ══════════════════════════════════════════════════════════════════════════ */
+    .pane-compose {
+      width: 420px;
+      min-width: 320px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--rule);
+      background: var(--ink-mid);
       position: relative;
     }
 
-    /* The Archival Masthead */
-    .atelier-masthead {
-      height: 56px;
-      background-color: var(--desk-wood);
-      border-bottom: 1px solid var(--hairline-rule);
+    /* Section label — editorial oversized rotated treatment */
+    .pane-label {
+      padding: 14px 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--rule);
+      flex-shrink: 0;
+    }
+
+    .pane-label-text {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+
+    .pane-label-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .micro-btn {
+      height: 24px;
+      padding: 0 8px;
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ash);
+      background: none;
+      border: 1px solid var(--rule);
+      cursor: pointer;
+      transition: all 0.12s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .micro-btn:hover { color: var(--bone); border-color: var(--rule-focus); background: var(--ink-soft); }
+
+    /* Syntax token shortcuts */
+    .token-bar {
+      display: flex;
+      gap: 4px;
+      padding: 8px 20px;
+      border-bottom: 1px solid var(--rule);
+      flex-shrink: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .token-bar::-webkit-scrollbar { display: none; }
+
+    .token-chip {
+      flex-shrink: 0;
+      height: 22px;
+      padding: 0 9px;
+      font-family: var(--ff-mono);
+      font-size: 9.5px;
+      color: var(--ash);
+      background: var(--ink);
+      border: 1px solid var(--rule);
+      cursor: pointer;
+      transition: all 0.12s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .token-chip code {
+      font-family: var(--ff-mono);
+      color: var(--amber);
+      font-size: 9px;
+    }
+    .token-chip:hover { border-color: var(--rule-focus); color: var(--bone); background: var(--ink-soft); }
+
+    /* Editor body — the composition surface */
+    .editor-body {
+      flex: 1;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .line-gutter {
+      width: 40px;
+      padding: 18px 0;
+      text-align: right;
+      padding-right: 10px;
+      font-family: var(--ff-mono);
+      font-size: 10.5px;
+      line-height: 1.72;
+      color: var(--ash-mid);
+      background: var(--ink);
+      border-right: 1px solid var(--rule);
+      overflow: hidden;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .line-gutter div { height: 1.72em; }
+
+    #inputText {
+      flex: 1;
+      padding: 18px 20px;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      color: var(--bone);
+      font-family: var(--ff-mono);
+      font-size: 12.5px;
+      line-height: 1.72;
+      tab-size: 4;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ink-soft) transparent;
+    }
+    #inputText::-webkit-scrollbar { width: 4px; }
+    #inputText::-webkit-scrollbar-thumb { background: var(--ink-soft); }
+    #inputText::placeholder {
+      color: var(--ash-mid);
+      font-family: var(--ff-body);
+      font-style: italic;
+    }
+
+    /* Drag drop overlay */
+    .drag-overlay {
+      position: absolute;
+      inset: 8px;
+      background: rgba(192,57,43,0.06);
+      border: 1.5px dashed var(--crimson);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      z-index: 20;
+    }
+    .drag-overlay.active { opacity: 1; pointer-events: all; }
+    .drag-overlay-label {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--crimson);
+    }
+
+    /* Pane footer — metrics strip */
+    .pane-metrics {
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
+      border-top: 1px solid var(--rule);
       flex-shrink: 0;
-      z-index: 50;
-      position: relative;
+      background: var(--ink);
     }
-
-    /* Corner registration marks */
-    .masthead-reg-left {
-      position: absolute;
-      bottom: -4px;
-      left: 12px;
-      font-family: var(--font-tech);
-      font-size: 9px;
-      color: var(--type-soot);
-      pointer-events: none;
-      letter-spacing: 0.1em;
-    }
-
-    .brand-crest {
+    .metrics-row {
       display: flex;
       align-items: center;
       gap: 14px;
     }
-
-    .quill-seal {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, #1e56d4, #123891);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      box-shadow: 0 0 16px var(--quink-blue-glow);
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .quill-seal::after {
-      content: "";
-      position: absolute;
-      top: 2px; left: 2px; right: 2px; bottom: 2px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 2px;
-    }
-
-    .brand-typographic-lockup {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .brand-title {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      color: var(--type-vellum);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .brand-edition-pill {
-      font-family: var(--font-tech);
-      font-size: 9px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--aurum-gold);
-      background: rgba(200, 157, 56, 0.12);
-      border: 1px solid rgba(200, 157, 56, 0.3);
-      padding: 1px 6px;
-      border-radius: 20px;
-    }
-
-    .brand-curator-caption {
-      font-family: var(--font-tech);
-      font-size: 10px;
-      color: var(--type-soot);
-      letter-spacing: 0.02em;
-    }
-
-    /* Navigation & Tactical Action Bar */
-    .atelier-nav-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Tactile Buttons */
-    .tactile-btn {
-      height: 34px;
-      padding: 0 13px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--type-vellum);
-      background-color: var(--drawer-steel);
-      border: 1px solid var(--hairline-rule);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      cursor: pointer;
-      user-select: none;
-      transition: all var(--trans-instant);
-      position: relative;
-    }
-
-    .tactile-btn:hover {
-      background-color: var(--brass-plate);
-      border-color: var(--hairline-focus);
-      color: var(--type-vellum);
-    }
-
-    .tactile-btn:active {
-      transform: translateY(1px);
-    }
-
-    .tactile-btn-ghost {
-      background: transparent;
-      border-color: transparent;
-      color: var(--type-ash);
-    }
-
-    .tactile-btn-ghost:hover {
-      background: var(--drawer-steel);
-      color: var(--type-vellum);
-      border-color: var(--hairline-rule);
-    }
-
-    /* Monumental Hero Strike Button */
-    .btn-strike-monument {
-      height: 36px;
-      padding: 0 18px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-display);
-      font-size: 12.5px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      background: linear-gradient(180deg, #2b6bf8, #184ecc);
-      color: #ffffff;
-      border: 1px solid #3c7eff;
-      box-shadow: 0 0 20px rgba(30, 86, 212, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all var(--trans-instant);
-    }
-
-    .btn-strike-monument:hover {
-      background: linear-gradient(180deg, #3d7cff, #1d57de);
-      box-shadow: 0 0 28px rgba(30, 86, 212, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      transform: translateY(-1px);
-    }
-
-    .btn-strike-monument:active {
-      transform: translateY(1px);
-    }
-
-    .kbd-tag {
-      font-family: var(--font-tech);
+    .metric-datum {
+      font-family: var(--ff-mono);
       font-size: 9.5px;
-      color: rgba(255, 255, 255, 0.8);
-      background-color: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 1px 4px;
-      border-radius: 3px;
-      letter-spacing: 0;
+      color: var(--ash);
+      letter-spacing: 0.04em;
+    }
+    .metric-datum strong {
+      color: var(--bone-soft);
+      font-weight: 400;
+    }
+    .metric-sep { color: var(--rule-mid); font-size: 10px; }
+    .metric-estimate {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
     }
 
-    /* ══════════════════════════════════════════════════════════════════════════
-       3. WORKSPACE CORE: THE PHYSICAL DESK
-       ══════════════════════════════════════════════════════════════════════════ */
-    .atelier-workspace {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* ── LEFT PANE: THE COMPOSITION SLATE ───────────────────────────────── */
-    .composition-slate {
-      flex: 1;
-      min-width: 390px;
+    /* ═══ SETTINGS PANEL (COLLAPSIBLE LEFT DRAWER) ══════════════════════════ */
+    .pane-settings {
+      width: 280px;
+      flex-shrink: 0;
+      background: var(--ink);
+      border-right: 1px solid var(--rule);
       display: flex;
       flex-direction: column;
-      background-color: var(--carbon-input);
-      border-right: 1px solid var(--hairline-rule);
-      position: relative;
-    }
-
-    /* Composition Header Ribbon */
-    .composition-ribbon {
-      height: 44px;
-      padding: 0 16px;
-      background-color: var(--desk-wood);
-      border-bottom: 1px solid var(--hairline-rule);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-    }
-
-    .token-quill-dock {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .token-press-pill {
-      height: 28px;
-      padding: 0 10px;
-      background-color: var(--carbon-input);
-      border: 1px solid var(--hairline-rule);
-      border-radius: var(--radius-sm);
-      font-family: var(--font-tech);
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--type-ash);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all var(--trans-instant);
-    }
-
-    .token-press-pill:hover {
-      background-color: var(--drawer-steel);
-      border-color: var(--hairline-focus);
-      color: var(--type-vellum);
-    }
-
-    .token-glyph-badge {
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--quink-blue);
-      background-color: rgba(30, 86, 212, 0.14);
-      padding: 0 4px;
-      border-radius: 2px;
-    }
-
-    /* Editor Floor */
-    .editor-typeset-floor {
-      flex: 1;
-      display: flex;
-      position: relative;
       overflow: hidden;
-      background: radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.015) 0%, transparent 60%);
+      transition: width 0.28s var(--ease-expo), opacity 0.28s;
     }
-
-    /* Architectural Line Ruler */
-    .arch-ruler-gutter {
-      width: 46px;
-      padding: 20px 10px 20px 0;
-      text-align: right;
-      font-family: var(--font-tech);
-      font-size: 11.5px;
-      line-height: 1.7;
-      color: var(--type-soot);
-      user-select: none;
-      background-color: var(--carbon-input);
-      border-right: 1px solid var(--hairline-rule);
-      overflow: hidden;
-    }
-
-    textarea#inputText {
-      flex: 1;
-      height: 100%;
-      border: none;
-      outline: none;
-      resize: none;
-      padding: 20px 24px;
-      background-color: transparent;
-      color: var(--type-vellum);
-      font-family: var(--font-tech);
-      font-size: 13.5px;
-      line-height: 1.7;
-      tab-size: 4;
-      white-space: pre-wrap;
-      word-break: break-word;
-      overflow-y: auto;
-    }
-
-    textarea#inputText::placeholder {
-      color: var(--type-soot);
-      font-family: var(--font-body);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    /* Drag & Drop Atmospheric Veil */
-    .drag-vellum-veil {
-      position: absolute;
-      top: 10px; left: 10px; right: 10px; bottom: 10px;
-      background-color: rgba(30, 86, 212, 0.12);
-      border: 1.5px dashed var(--quink-blue);
-      border-radius: var(--radius-md);
-      backdrop-filter: blur(6px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--trans-instant);
-      z-index: 30;
-    }
-
-    .drag-vellum-veil.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    /* Slate Editorial Footer */
-    .slate-folio-footer {
-      height: 36px;
-      background-color: var(--desk-wood);
-      border-top: 1px solid var(--hairline-rule);
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: var(--font-tech);
-      font-size: 11px;
-      color: var(--type-soot);
-      font-variant-numeric: tabular-nums;
-      flex-shrink: 0;
-    }
-
-    .metrics-stream {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .stream-marker {
-      color: var(--hairline-rule);
-    }
-
-    .folio-estimate-stamp {
-      font-weight: 600;
-      color: var(--aurum-gold);
-      letter-spacing: 0.02em;
-    }
-
-    /* ── DRAWER: THE TOOLCHEST (Inspector & Inks) ───────────────────────── */
-    .toolchest-drawer {
-      width: 320px;
-      background-color: var(--desk-wood);
-      border-right: 1px solid var(--hairline-rule);
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      overflow-y: auto;
-      transition: width var(--trans-smooth), opacity var(--trans-smooth), transform var(--trans-smooth);
-      z-index: 40;
-    }
-
-    .toolchest-drawer.collapsed {
+    .pane-settings.hidden {
       width: 0;
       opacity: 0;
       pointer-events: none;
-      border-right-color: transparent;
-      transform: translateX(-15px);
+      border-right: none;
     }
 
-    .toolchest-titlebar {
+    .settings-header {
       height: 44px;
-      padding: 0 18px;
-      border-bottom: 1px solid var(--hairline-rule);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-family: var(--font-display);
-      font-size: 11.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--type-ash);
+      padding: 0 18px;
+      border-bottom: 1px solid var(--rule);
       flex-shrink: 0;
     }
-
-    .toolchest-chassis {
-      padding: 20px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-    }
-
-    .chassis-module {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .chassis-header {
-      font-family: var(--font-tech);
-      font-size: 11px;
-      font-weight: 600;
+    .settings-title {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--type-ash);
+      color: var(--ash);
+    }
+
+    .settings-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ink-soft) transparent;
+    }
+    .settings-body::-webkit-scrollbar { width: 3px; }
+    .settings-body::-webkit-scrollbar-thumb { background: var(--ink-soft); }
+
+    /* Control group */
+    .ctrl-group {
+      margin-bottom: 20px;
+    }
+    .ctrl-label {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ash);
+      margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+    }
+    .ctrl-label span {
+      color: var(--crimson);
+      font-weight: 700;
     }
 
-    .chassis-header .metric-dial {
-      color: var(--quink-blue);
-      font-weight: 600;
-    }
-
-    /* Segmented Matrix */
-    .archetype-segmented {
+    /* Preset tabs */
+    .preset-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      background-color: var(--carbon-input);
-      border: 1px solid var(--hairline-rule);
-      border-radius: var(--radius-sm);
-      padding: 2px;
-      gap: 2px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+      margin-bottom: 4px;
     }
-
-    .archetype-tab {
-      height: 28px;
-      background: none;
-      border: none;
-      font-family: var(--font-tech);
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--type-soot);
-      border-radius: 3px;
+    .preset-tab {
+      height: 30px;
+      font-family: var(--ff-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ash);
+      background: var(--ink-mid);
+      border: 1px solid var(--rule);
       cursor: pointer;
-      transition: all var(--trans-instant);
+      transition: all 0.14s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .preset-tab:hover { color: var(--bone); border-color: var(--rule-focus); }
+    .preset-tab.active {
+      color: var(--bone);
+      background: var(--ink-soft);
+      border-color: var(--crimson);
     }
 
-    .archetype-tab.active {
-      background-color: var(--drawer-steel);
-      color: var(--type-vellum);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Physical Ink Reservoir Wells */
-    .ink-flask-cradle {
-      background-color: var(--carbon-input);
-      border: 1px solid var(--hairline-rule);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
+    /* Ink wells */
+    .ink-row {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
-
-    .flask-swatch-row {
+    .ink-swatch-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .ink-swatch-label {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      color: var(--ash);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .ink-swatch-row {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 5px;
     }
-
-    .ink-reservoir-well {
-      width: 24px;
-      height: 24px;
-      border-radius: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+    .ink-well {
+      width: 20px; height: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
       cursor: pointer;
-      position: relative;
-      transition: transform var(--trans-instant), box-shadow var(--trans-instant);
+      transition: transform 0.12s, box-shadow 0.12s;
+      flex-shrink: 0;
     }
-
-    .ink-reservoir-well:hover {
-      transform: scale(1.16);
-      z-index: 5;
+    .ink-well:hover { transform: scale(1.2); }
+    .ink-well.active { box-shadow: 0 0 0 2px var(--bone), 0 0 0 3px var(--ink); transform: scale(1.1); }
+    .ink-hex {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      color: var(--ash);
+      letter-spacing: 0.04em;
+      flex: 1;
     }
-
-    .ink-reservoir-well.selected::after {
-      content: "";
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #ffffff;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
-    }
-
-    .custom-well-aperture {
-      width: 24px;
-      height: 24px;
-      border-radius: 5px;
-      border: 1px dashed var(--hairline-focus);
-      position: relative;
-      cursor: pointer;
-    }
-
-    .custom-well-aperture input[type="color"] {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0;
-      cursor: pointer;
-    }
+    input[type="color"] { width: 20px; height: 20px; border: none; cursor: pointer; background: none; padding: 0; flex-shrink: 0; }
 
     /* Sliders */
-    input[type="range"] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--brass-plate);
-      outline: none;
-      cursor: pointer;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--type-vellum);
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-      border: 2px solid var(--quink-blue);
-      cursor: pointer;
-      transition: transform var(--trans-instant);
-    }
-
-    input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.25);
-    }
-
-    /* Select */
-    .parchment-select {
-      width: 100%;
-      height: 32px;
-      padding: 0 10px;
-      background-color: var(--carbon-input);
-      border: 1px solid var(--hairline-rule);
-      border-radius: var(--radius-sm);
-      color: var(--type-vellum);
-      font-family: var(--font-tech);
-      font-size: 11.5px;
-      outline: none;
-      cursor: pointer;
-    }
-
-    /* Precision Toggles */
-    .precision-switch-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      padding: 2px 0;
-    }
-
-    .switch-title-block {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .switch-title-block .headline {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--type-vellum);
-    }
-
-    .switch-title-block .caption {
-      font-family: var(--font-tech);
-      font-size: 10px;
-      color: var(--type-soot);
-    }
-
-    .micro-switch {
-      position: relative;
-      width: 32px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    .micro-switch input {
-      opacity: 0;
-      width: 0; height: 0;
-    }
-
-    .micro-track {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: var(--brass-plate);
-      border-radius: 18px;
-      border: 1px solid var(--hairline-rule);
-      transition: background-color var(--trans-instant);
-    }
-
-    .micro-track::before {
-      position: absolute;
-      content: "";
-      height: 12px; width: 12px;
-      left: 2px; bottom: 2px;
-      background-color: #ffffff;
-      border-radius: 50%;
-      transition: transform var(--trans-instant);
-    }
-
-    .micro-switch input:checked + .micro-track {
-      background-color: var(--quink-blue);
-      border-color: var(--quink-blue);
-    }
-
-    .micro-switch input:checked + .micro-track::before {
-      transform: translateX(14px);
-    }
-
-    /* ── RIGHT PANE: THE ARCHIVAL PROOFING PRESS ────────────────────────── */
-    .proofing-press-pane {
-      flex: 1.35;
-      display: flex;
-      flex-direction: column;
-      background-color: var(--obsidian-bed);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Press Masthead */
-    .press-masthead {
-      height: 44px;
-      padding: 0 18px;
-      background-color: var(--desk-wood);
-      border-bottom: 1px solid var(--hairline-rule);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-    }
-
-    .strike-action-cluster {
+    .range-wrap {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
-    .export-docket-cluster {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    input[type="range"] {
+      flex: 1;
+      height: 2px;
+      appearance: none;
+      background: var(--rule-focus);
+      cursor: pointer;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 10px; height: 10px;
+      background: var(--crimson);
+      border-radius: 0;
+      cursor: pointer;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 10px; height: 10px;
+      background: var(--crimson);
+      border-radius: 0;
+      cursor: pointer;
+      border: none;
+    }
+    .range-val {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      color: var(--crimson);
+      min-width: 36px;
+      text-align: right;
     }
 
-    /* Dimensional Press Stage Viewport */
-    .press-stage-viewport {
+    /* Paper selector */
+    select {
+      width: 100%;
+      height: 28px;
+      padding: 0 10px;
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      color: var(--bone-soft);
+      background: var(--ink-mid);
+      border: 1px solid var(--rule-mid);
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+    }
+    select:focus { border-color: var(--rule-focus); }
+
+    /* Toggles */
+    .toggle-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .toggle-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .toggle-item:last-child { border-bottom: none; }
+    .toggle-name {
+      font-family: var(--ff-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.04em;
+      color: var(--ash);
+    }
+    .toggle-switch {
+      position: relative;
+      width: 28px; height: 14px;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--ink-soft);
+      border: 1px solid var(--rule);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .toggle-track::before {
+      content: '';
+      position: absolute;
+      width: 10px; height: 10px;
+      left: 1px; top: 1px;
+      background: var(--ash);
+      transition: all 0.15s;
+    }
+    input:checked + .toggle-track { background: var(--crimson); border-color: var(--crimson); }
+    input:checked + .toggle-track::before { transform: translateX(14px); background: #fff; }
+
+    /* ═══ PREVIEW PANE (RIGHT) ══════════════════════════════════════════════
+       The "proofing table" — where manuscripts materialize
+    ══════════════════════════════════════════════════════════════════════════ */
+    .pane-preview {
       flex: 1;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: auto;
-      padding: 36px;
-      position: relative;
-      /* Lithographer's cutting mat grid */
-      background-image: 
-        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 24px 24px;
-    }
-
-    [data-theme="light"] .press-stage-viewport {
-      background-image: 
-        linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
-    }
-
-    /* Empty Atelier Platen */
-    .empty-platen-card {
-      display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      max-width: 420px;
-      gap: 16px;
-      padding: 32px 24px;
-      border: 1px solid var(--hairline-rule);
-      border-radius: var(--radius-md);
-      background: radial-gradient(circle at 50% 0%, rgba(30, 86, 212, 0.08) 0%, transparent 80%), var(--desk-wood);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+      background: var(--ink-mid);
+      overflow: hidden;
       position: relative;
     }
 
-    .empty-platen-card::before {
-      content: "+";
-      position: absolute;
-      top: 6px; left: 8px;
-      font-family: var(--font-tech);
-      font-size: 11px;
-      color: var(--type-soot);
-    }
-
-    .empty-platen-card::after {
-      content: "+";
-      position: absolute;
-      bottom: 6px; right: 8px;
-      font-family: var(--font-tech);
-      font-size: 11px;
-      color: var(--type-soot);
-    }
-
-    .empty-seal-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: var(--radius-md);
-      background: var(--carbon-input);
-      border: 1px solid var(--hairline-rule);
+    /* Preview top action bar */
+    .preview-bar {
+      height: 44px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: var(--quink-blue);
-      box-shadow: inset 0 0 12px rgba(30, 86, 212, 0.15);
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--rule);
+      background: var(--ink);
+      flex-shrink: 0;
+    }
+    .preview-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .preview-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .empty-headline {
-      font-family: var(--font-display);
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.01em;
+    /* Page nav */
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .page-nav-btn {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      color: var(--ash);
+      background: none;
+      border: 1px solid var(--rule);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .page-nav-btn:hover { color: var(--bone); border-color: var(--rule-focus); background: var(--ink-soft); }
+    .page-nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .page-label {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--type-vellum);
+      color: var(--ash);
+      padding: 0 10px;
     }
 
-    .empty-descriptor {
-      font-size: 12.5px;
-      line-height: 1.6;
-      color: var(--type-ash);
-    }
-
-    /* Dimensional Manuscript Sheet Stack */
-    .manuscript-stack-cradle {
+    /* Zoom cluster */
+    .zoom-cluster {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .zoom-btn {
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: var(--ash);
+      background: none;
+      border: 1px solid var(--rule);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .zoom-btn:hover { color: var(--bone); border-color: var(--rule-focus); background: var(--ink-soft); }
+    #zoomValueText {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      color: var(--ash);
+      padding: 0 6px;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .perf-badge {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      color: var(--ash);
+      background: var(--ink-soft);
+      border: 1px solid var(--rule);
+      padding: 2px 7px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Preview stage — the actual proofing table */
+    .preview-stage {
+      flex: 1;
+      overflow: auto;
+      display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform var(--trans-instant);
-      transform-origin: center center;
+      padding: 32px;
       position: relative;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ink-soft) transparent;
+      background: var(--ink-mid);
+      /* Subtle radial vignette for depth */
+      background: radial-gradient(ellipse at center, var(--ink-soft) 0%, var(--ink-mid) 60%, var(--ink) 100%);
     }
 
-    /* Subtle layered paper sheet deck */
-    .manuscript-stack-cradle::before {
-      content: "";
-      position: absolute;
-      top: 4px; left: 4px; right: -4px; bottom: -4px;
-      background-color: var(--paper-vellum-sheet);
-      opacity: 0.4;
-      border-radius: 3px;
-      z-index: 1;
-      filter: brightness(0.92);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    .page-wrapper {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      transform-origin: top center;
+      transition: transform 0.2s var(--ease-snap);
     }
+    .page-wrapper.visible { display: flex; }
 
-    .manuscript-stack-cradle::after {
-      content: "";
-      position: absolute;
-      top: 8px; left: 8px; right: -8px; bottom: -8px;
-      background-color: var(--paper-vellum-sheet);
-      opacity: 0.2;
-      border-radius: 3px;
-      z-index: 0;
-      filter: brightness(0.85);
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
-    }
-
-    .proofed-manuscript-sheet {
-      position: relative;
-      z-index: 2;
-      max-width: 90%;
-      max-height: 75vh;
-      border-radius: 3px;
-      box-shadow: var(--stack-shadow);
-      background-color: var(--paper-vellum-sheet);
+    /* Physical paper sheet */
+    .manuscript-page {
+      max-width: 100%;
       cursor: zoom-in;
       display: block;
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      transition: box-shadow var(--trans-smooth);
+      /* Physical paper shadow stack */
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.5),
+        0 12px 32px rgba(0,0,0,0.6),
+        0 32px 72px rgba(0,0,0,0.5),
+        0 1px 0 rgba(255,255,255,0.03) inset;
+      transition: box-shadow 0.2s;
+    }
+    .manuscript-page:hover {
+      box-shadow:
+        0 4px 8px rgba(0,0,0,0.5),
+        0 20px 48px rgba(0,0,0,0.65),
+        0 48px 96px rgba(0,0,0,0.5);
     }
 
-    /* Floating Precision Loupe Dock */
-    .floating-loupe-dock {
-      position: absolute;
-      bottom: 22px;
-      right: 22px;
-      background-color: rgba(19, 20, 24, 0.88);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--hairline-rule);
-      border-radius: var(--radius-full);
-      padding: 3px 6px;
+    /* Empty state — editorial layout */
+    .empty-state {
       display: flex;
-      align-items: center;
-      gap: 3px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      z-index: 25;
-    }
-
-    [data-theme="light"] .floating-loupe-dock {
-      background-color: rgba(255, 255, 255, 0.92);
-      border-color: var(--hairline-focus);
-    }
-
-    .loupe-ctrl-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: none;
-      border: none;
-      color: var(--type-ash);
-      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      font-size: 13px;
-      transition: all var(--trans-instant);
-    }
-
-    .loupe-ctrl-btn:hover {
-      background-color: var(--drawer-steel);
-      color: var(--type-vellum);
-    }
-
-    .loupe-ratio-readout {
-      font-family: var(--font-tech);
-      font-size: 11px;
-      color: var(--type-ash);
-      min-width: 40px;
       text-align: center;
-      user-select: none;
+      padding: 48px 32px;
+      max-width: 420px;
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      height: fit-content;
     }
 
-    /* Filmstrip Proofing Footer */
-    .press-proofing-footer {
-      height: 66px;
-      background-color: var(--desk-wood);
-      border-top: 1px solid var(--hairline-rule);
-      padding: 0 18px;
+    .empty-rule {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--crimson), transparent);
+      margin: 0 auto 24px;
+    }
+
+    .empty-title {
+      font-family: var(--ff-display);
+      font-size: 32px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      color: var(--bone-mid);
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .empty-title em {
+      font-style: normal;
+      color: var(--crimson);
+    }
+
+    .empty-sub {
+      font-family: var(--ff-body);
+      font-size: 12px;
+      color: var(--ash);
+      line-height: 1.65;
+      margin-bottom: 28px;
+      max-width: 300px;
+    }
+
+    .empty-cta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      max-width: 240px;
+    }
+
+    /* Keyboard shortcut hints in empty state */
+    .shortcut-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+      width: 100%;
+    }
+    .shortcut-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      padding: 4px 0;
+    }
+    .shortcut-label {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      color: var(--ash);
+      letter-spacing: 0.04em;
+    }
+    kbd {
+      font-family: var(--ff-mono);
+      font-size: 8.5px;
+      color: var(--bone-soft);
+      background: var(--ink-soft);
+      border: 1px solid var(--rule-focus);
+      padding: 1px 5px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ═══ FILMSTRIP — Bottom thumbnail strip ════════════════════════════════ */
+    .filmstrip-container {
       flex-shrink: 0;
-    }
-
-    .sheet-indexer-block {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .sheet-folio-index {
-      font-family: var(--font-tech);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--type-vellum);
-      min-width: 86px;
-      text-align: center;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .archival-filmstrip-strip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-      max-width: 520px;
-      padding: 4px;
-      scrollbar-width: none;
-    }
-
-    .archival-filmstrip-strip::-webkit-scrollbar {
+      border-top: 1px solid var(--rule);
+      background: var(--ink);
+      padding: 10px 16px;
       display: none;
     }
-
-    .proof-thumbnail-card {
-      position: relative;
-      border-radius: 3px;
-      border: 2px solid transparent;
-      overflow: hidden;
-      cursor: pointer;
-      background: none;
-      padding: 0;
-      flex-shrink: 0;
-      transition: all var(--trans-instant);
-    }
-
-    .proof-thumbnail-card img {
-      width: 28px;
-      height: 38px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .proof-thumbnail-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .proof-thumbnail-card.active {
-      border-color: var(--quink-blue);
-      box-shadow: 0 0 12px var(--quink-blue-glow);
-      transform: translateY(-2px);
-    }
-
-    .proof-folio-tag {
-      position: absolute;
-      bottom: 1px; right: 2px;
+    .filmstrip-container.visible { display: block; }
+    .filmstrip-label {
+      font-family: var(--ff-mono);
       font-size: 8px;
-      font-weight: 700;
-      font-family: var(--font-tech);
-      background-color: rgba(0, 0, 0, 0.85);
-      color: #ffffff;
-      padding: 0 2px;
-      border-radius: 2px;
-    }
-
-    .press-cycle-chronometer {
-      font-family: var(--font-tech);
-      font-size: 11px;
-      color: var(--type-soot);
-      flex-shrink: 0;
-    }
-
-    /* ══════════════════════════════════════════════════════════════════════════
-       4. REALISTIC CAPILLARY INK LOADING ANIMATION
-       ══════════════════════════════════════════════════════════════════════════ */
-    .ink-capillary-veil {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(12, 13, 16, 0.82);
-      backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      z-index: 50;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--trans-instant);
-    }
-
-    .ink-capillary-veil.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .capillary-nib-core {
-      width: 44px;
-      height: 44px;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top-color: var(--quink-blue);
-      border-right-color: var(--aurum-gold);
-      border-radius: 50%;
-      animation: nibRevolve 0.75s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    }
-
-    @keyframes nibRevolve {
-      to { transform: rotate(360deg); }
-    }
-
-    .capillary-headline {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--type-vellum);
+      color: var(--ash-mid);
+      margin-bottom: 8px;
     }
-
-    .capillary-telemetry {
-      font-family: var(--font-tech);
-      font-size: 11px;
-      color: var(--type-ash);
-    }
-
-    /* ══════════════════════════════════════════════════════════════════════════
-       5. MODALS & SPECIMEN DIALOGS
-       ══════════════════════════════════════════════════════════════════════════ */
-    .specimen-modal-scrim {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
+    .filmstrip {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--trans-smooth);
-    }
-
-    .specimen-modal-scrim.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .specimen-folio-dialog {
-      background-color: var(--desk-wood);
-      border: 1px solid var(--hairline-focus);
-      border-radius: var(--radius-lg);
-      width: 90%;
-      max-width: 640px;
-      max-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-      overflow: hidden;
-      transform: scale(0.97);
-      transition: transform var(--trans-smooth);
-    }
-
-    .specimen-modal-scrim.active .specimen-folio-dialog {
-      transform: scale(1);
-    }
-
-    .folio-dialog-header {
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--hairline-rule);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-    }
-
-    .folio-dialog-body {
-      padding: 22px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .specimen-rule-card {
-      background-color: var(--carbon-input);
-      border: 1px solid var(--hairline-rule);
-      border-radius: var(--radius-md);
-      padding: 14px 16px;
-      display: flex;
-      flex-direction: column;
       gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filmstrip::-webkit-scrollbar { display: none; }
+
+    .thumb-card {
+      flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+      border: 1px solid var(--rule);
+      transition: all 0.14s;
+    }
+    .thumb-card img {
+      display: block;
+      height: 60px;
+      width: auto;
+    }
+    .thumb-card:hover { border-color: var(--rule-focus); }
+    .thumb-card.active {
+      border-color: var(--crimson);
+      box-shadow: 0 0 0 1px var(--crimson);
+    }
+    .thumb-num {
+      position: absolute;
+      bottom: 2px; right: 4px;
+      font-family: var(--ff-mono);
+      font-size: 8px;
+      color: rgba(255,255,255,0.5);
     }
 
-    .specimen-card-crest {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .specimen-rule-title {
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--quink-blue);
-      display: flex;
+    /* ═══ EXPORT ROW (shows after render) ══════════════════════════════════ */
+    .export-row {
+      display: none;
       align-items: center;
       gap: 6px;
     }
+    .export-row.visible { display: flex; }
 
-    .specimen-code-stratum {
-      font-family: var(--font-tech);
-      font-size: 12px;
-      background-color: var(--desk-wood);
-      border: 1px solid var(--hairline-rule);
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      color: #38bdf8;
-    }
-
-    .specimen-gloss-text {
-      font-size: 12px;
-      color: var(--type-ash);
-      line-height: 1.55;
-    }
-
-    /* Fullscreen High-Definition Loupe Modal */
-    .loupe-fullscreen-scrim {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(5, 6, 8, 0.96);
+    /* ═══ LOADING OVERLAY ═══════════════════════════════════════════════════ */
+    .loading-veil {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.88);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 150;
+      gap: 20px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity var(--trans-smooth);
+      transition: opacity 0.2s;
+      z-index: 50;
     }
+    .loading-veil.active { opacity: 1; pointer-events: all; }
 
-    .loupe-fullscreen-scrim.active {
-      opacity: 1;
-      pointer-events: all;
+    /* Ink drip loader — the signature animation */
+    .ink-loader {
+      position: relative;
+      width: 48px;
+      height: 60px;
     }
-
-    .fullscreen-proof-canvas {
-      max-width: 95vw;
-      max-height: 94vh;
-      object-fit: contain;
-      border-radius: 4px;
-      box-shadow: 0 0 80px rgba(0, 0, 0, 0.98);
-    }
-
-    .loupe-close-trigger {
+    .ink-drop {
       position: absolute;
-      top: 22px; right: 22px;
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-      cursor: pointer;
+      width: 10px;
+      border-radius: 0 0 50% 50%;
+      background: var(--crimson);
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: inkFill 1.6s var(--ease-expo) infinite;
+    }
+    .ink-nib {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 20px solid var(--bone-mid);
+    }
+    @keyframes inkFill {
+      0%   { height: 0; opacity: 1; }
+      60%  { height: 36px; opacity: 1; }
+      85%  { height: 36px; opacity: 0.8; }
+      100% { height: 0; opacity: 0; }
+    }
+
+    .loading-label {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+    .loading-pulse {
+      display: flex;
+      gap: 4px;
+    }
+    .loading-pulse span {
+      width: 3px; height: 3px;
+      background: var(--crimson);
+      animation: pulse-dot 1.2s ease infinite;
+    }
+    .loading-pulse span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-pulse span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse-dot {
+      0%, 80%, 100% { transform: scale(0.5); opacity: 0.4; }
+      40% { transform: scale(1.3); opacity: 1; }
+    }
+
+    /* ═══ LIGHTBOX ══════════════════════════════════════════════════════════ */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
-      transition: background-color var(--trans-instant);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 200;
+    }
+    .lightbox.active { opacity: 1; pointer-events: all; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      cursor: zoom-out;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      color: var(--ash);
+      background: var(--ink-soft);
+      border: 1px solid var(--rule-mid);
+      cursor: pointer;
+      transition: all 0.14s;
+    }
+    .lightbox-close:hover { color: var(--bone); border-color: var(--rule-focus); }
+
+    /* ═══ SYNTAX GUIDE MODAL ════════════════════════════════════════════════ */
+    .modal-scrim {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 150;
+    }
+    .modal-scrim.active { opacity: 1; pointer-events: all; }
+
+    .modal-panel {
+      background: var(--ink-mid);
+      border: 1px solid var(--rule-mid);
+      width: 580px;
+      max-width: 94vw;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      animation: modalSlide 0.22s var(--ease-snap);
+    }
+    @keyframes modalSlide {
+      from { transform: translateY(16px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
     }
 
-    .loupe-close-trigger:hover {
-      background-color: rgba(255, 255, 255, 0.28);
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--rule);
+      flex-shrink: 0;
+    }
+    .modal-title {
+      font-family: var(--ff-display);
+      font-size: 18px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--bone);
+    }
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
     }
 
-    /* Floating Toast Dock */
-    .atelier-toast-dock {
+    .syntax-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .syntax-table th {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ash);
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--rule);
+      font-weight: 400;
+    }
+    .syntax-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    .syntax-table tr:last-child td { border-bottom: none; }
+    .syntax-table td:first-child {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: var(--amber);
+      white-space: nowrap;
+      width: 160px;
+    }
+    .syntax-table td:last-child {
+      font-family: var(--ff-body);
+      font-size: 11.5px;
+      color: var(--bone-soft);
+      line-height: 1.6;
+    }
+    .modal-inject-btn {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      color: var(--ash);
+      background: var(--ink);
+      border: 1px solid var(--rule);
+      padding: 2px 8px;
+      cursor: pointer;
+      float: right;
+      transition: all 0.12s;
+    }
+    .modal-inject-btn:hover { color: var(--bone); border-color: var(--rule-focus); }
+
+    /* ═══ TOAST SYSTEM ══════════════════════════════════════════════════════ */
+    #toastStack {
       position: fixed;
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      z-index: 200;
+      gap: 6px;
+      z-index: 999;
       pointer-events: none;
     }
-
-    .tactile-toast-stamp {
-      background-color: var(--brass-plate);
-      color: var(--type-vellum);
-      border: 1px solid var(--hairline-focus);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
-      padding: 9px 18px;
-      border-radius: var(--radius-full);
-      font-size: 12.5px;
-      font-weight: 600;
+    .toast {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--bone);
+      background: var(--ink-soft);
+      border: 1px solid var(--rule-focus);
+      padding: 8px 16px;
       display: flex;
       align-items: center;
-      gap: 9px;
-      animation: stampSlide 0.22s var(--trans-instant);
+      gap: 8px;
+      animation: toastIn 0.2s var(--ease-snap);
+      white-space: nowrap;
+    }
+    .toast-dot { width: 5px; height: 5px; background: var(--crimson); flex-shrink: 0; }
+    @keyframes toastIn {
+      from { transform: translateY(12px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
     }
 
-    @keyframes stampSlide {
-      from { transform: translateY(16px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    /* ═══ RESIZE HANDLE ═════════════════════════════════════════════════════ */
+    .resize-handle {
+      width: 4px;
+      background: transparent;
+      cursor: col-resize;
+      flex-shrink: 0;
+      transition: background 0.15s;
+      position: relative;
+    }
+    .resize-handle:hover, .resize-handle.dragging { background: var(--crimson); }
+
+    /* ═══ ENTRANCE ANIMATIONS ═══════════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .masthead { animation: fadeUp 0.4s var(--ease-expo) both; }
+    .pane-compose { animation: fadeUp 0.5s 0.08s var(--ease-expo) both; }
+    .pane-preview { animation: fadeUp 0.5s 0.14s var(--ease-expo) both; }
+
+    /* ═══ RESPONSIVE ════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .masthead-center { display: none; }
+      .pane-settings { display: none; }
+      .pane-compose { width: 100%; border-right: none; }
+      .workspace { flex-direction: column; }
+      .pane-preview { min-height: 50vh; }
     }
 
-    #hiddenFileInput {
-      display: none;
-    }
-
-    @media (max-width: 960px) {
-      .atelier-workspace {
-        flex-direction: column;
-      }
-      .toolchest-drawer {
-        position: absolute;
-        top: 0; bottom: 0; left: 0;
-        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
-      }
-      .composition-slate {
-        min-height: 44vh;
-        border-right: none;
-        border-bottom: 1px solid var(--hairline-rule);
-      }
-    }
+    /* Utility */
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+    .hidden { display: none !important; }
+    .divider { width: 1px; height: 18px; background: var(--rule-mid); }
   </style>
 </head>
 <body>
 
-<div class="atelier-shell">
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       THE ARCHIVAL MASTHEAD
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <header class="atelier-masthead">
-    <div class="masthead-reg-left">+ REC. 2026 // LITHOGRAPH PROOFING</div>
-    <div class="brand-crest">
-      <div class="quill-seal" title="Handwriting Studio Atelier">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 20h9"/>
-          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
-        </svg>
-      </div>
-      <div class="brand-typographic-lockup">
-        <div class="brand-title">
-          <span>Handwriting Studio</span>
-          <span class="brand-edition-pill">v2.5 Atelier</span>
-        </div>
-        <span class="brand-curator-caption">Authentic Pen Physics & Ruled Manuscript Synthesis</span>
-      </div>
+<!-- Grid background -->
+<div class="grid-bg"></div>
+
+<!-- App Shell -->
+<div id="app">
+
+  <!-- ══ MASTHEAD ══════════════════════════════════════════════════════════ -->
+  <header class="masthead">
+    <div class="brand-block">
+      <div class="brand-name">S<em>c</em>riptorium</div>
+      <div class="brand-edition">Manuscript Engine · v3.0</div>
     </div>
 
-    <div class="atelier-nav-controls">
-      <!-- Toggle Styles Toolchest -->
-      <button class="tactile-btn tactile-btn-ghost" id="btnToggleSettings" title="Toggle Toolchest (⌥S)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-        <span>Toolchest</span>
+    <nav class="masthead-center">
+      <button class="nav-pill active" id="navCompose">Compose</button>
+      <button class="nav-pill" id="navSettings" title="Alt+S">Settings</button>
+      <button class="nav-pill" id="navGuide" title="⌘K">Syntax Guide</button>
+    </nav>
+
+    <div class="masthead-right">
+      <span id="renderPerfBadge" class="perf-badge" style="display:none">0s</span>
+      <div id="exportActionGroup" class="export-row">
+        <button class="btn-ghost" id="btnExportPng" title="Export current page as PNG">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          PNG
+        </button>
+        <button class="btn-ghost" id="btnExportZip">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          ZIP
+        </button>
+        <button class="btn-ghost" id="btnExportPdf">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+          PDF
+        </button>
+        <div class="divider"></div>
+      </div>
+      <button class="btn-ghost" id="btnFastPreview" title="Cmd+Shift+Enter">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        Preview
       </button>
-
-      <div style="width: 1px; height: 16px; background-color: var(--hairline-rule); margin: 0 2px;"></div>
-
-      <!-- Sample Button -->
-      <button class="tactile-btn tactile-btn-ghost" id="btnLoadSample" title="Load sample assignment document">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
-          <line x1="16" y1="13" x2="8" y2="13"/>
-          <line x1="16" y1="17" x2="8" y2="17"/>
-        </svg>
-        <span>Sample Folio</span>
+      <button class="btn-strike" id="btnGenerateAll" title="Cmd+Enter">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Generate All
       </button>
-
-      <!-- Import Button -->
-      <button class="tactile-btn tactile-btn-ghost" id="btnUploadFile" title="Import raw text file (.txt)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="17 8 12 3 7 8"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
-        </svg>
-        <span>Import</span>
-      </button>
-      <input type="file" id="hiddenFileInput" accept=".txt">
-
-      <!-- Syntax Specimen Button -->
-      <button class="tactile-btn tactile-btn-ghost" id="btnOpenGuide" title="Open Syntax Rules (⌘K)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        <span>Specimen</span>
-      </button>
-
-      <!-- Theme Switcher -->
-      <button class="tactile-btn tactile-btn-ghost" id="btnToggleTheme" style="width:34px; padding:0;" title="Toggle Parchment/Obsidian Theme">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/>
-          <line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/>
-          <line x1="21" y1="12" x2="23" y2="12"/>
-        </svg>
-      </button>
-
-      <!-- Monumental Hero Generate Button in Header -->
-      <button class="btn-strike-monument" id="btnGenerateAll" title="Execute Imprint: Inscribe full document (⌘ + Enter)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-        </svg>
-        <span>Generate All</span>
-        <span class="kbd-tag">⌘↵</span>
+      <div class="divider"></div>
+      <button class="btn-ghost" id="btnToggleTheme" title="Toggle light/dark">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
     </div>
   </header>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       THE ATELIER WORKSPACE
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <div class="atelier-workspace">
+  <!-- ══ WORKSPACE ═════════════════════════════════════════════════════════ -->
+  <div class="workspace">
 
-    <!-- ── 1. THE TOOLCHEST DRAWER ────────────────────────────────────────── -->
-    <aside class="toolchest-drawer" id="settingsDrawer">
-      <div class="toolchest-titlebar">
-        <span>The Toolchest</span>
-        <button class="tactile-btn tactile-btn-ghost" id="btnResetStyles" title="Reset to standard defaults" style="width:26px; height:26px; padding:0;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
-            <path d="M21 3v5h-5"/>
-            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
-            <path d="M3 21v-5h5"/>
-          </svg>
-        </button>
+    <!-- ── SETTINGS PANE ──────────────────────────────────────────────── -->
+    <aside class="pane-settings hidden" id="settingsDrawer">
+      <div class="settings-header">
+        <span class="settings-title">Configuration</span>
+        <button class="micro-btn" id="btnResetStyles">Reset</button>
       </div>
+      <div class="settings-body">
 
-      <div class="toolchest-chassis">
-
-        <!-- Archetype Preset -->
-        <div class="chassis-module">
-          <label class="chassis-header">Manuscript Archetype</label>
-          <div class="archetype-segmented" id="presetTabs">
-            <button class="archetype-tab active" data-preset="exam">Exam</button>
-            <button class="archetype-tab" data-preset="assignment">Assign</button>
-            <button class="archetype-tab" data-preset="royal">Royal</button>
-            <button class="archetype-tab" data-preset="compact">Dense</button>
+        <!-- Presets -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">Handwriting Archetype</div>
+          <div class="preset-grid" id="presetTabs">
+            <button class="preset-tab active" data-preset="exam">Exam</button>
+            <button class="preset-tab" data-preset="assignment">Assignment</button>
+            <button class="preset-tab" data-preset="royal">Royal Blue</button>
+            <button class="preset-tab" data-preset="compact">Compact</button>
           </div>
         </div>
 
-        <!-- Base Ink Reservoir -->
-        <div class="chassis-module">
-          <div class="chassis-header">
-            <span>Primary Ink Well</span>
-            <span class="metric-dial" id="labelDefaultInk">#0F0F14</span>
-          </div>
-          <div class="ink-flask-cradle">
-            <div class="flask-swatch-row">
-              <span class="ink-reservoir-well selected" style="background:#0f0f14;" data-target="default" data-hex="#0f0f14" title="Iron Gall Black"></span>
-              <span class="ink-reservoir-well" style="background:#1a365d;" data-target="default" data-hex="#1a365d" title="Dark Navy"></span>
-              <span class="ink-reservoir-well" style="background:#194bb4;" data-target="default" data-hex="#194bb4" title="Ballpoint Blue"></span>
-              <span class="ink-reservoir-well" style="background:#2b1810;" data-target="default" data-hex="#2b1810" title="Walnut Sepia"></span>
-              <div class="custom-well-aperture" id="defaultInkPreview" style="background-color: #0f0f14;" title="Custom Ink Tone">
+        <!-- Ink Colors -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">Default Ink</div>
+          <div class="ink-row">
+            <div class="ink-swatch-group">
+              <div class="ink-swatch-row">
                 <input type="color" id="inputDefaultInk" value="#0f0f14">
+                <div class="ink-well active" style="background:#0f0f14;" data-target="default" data-hex="#0f0f14"></div>
+                <div class="ink-well" style="background:#1a365d;" data-target="default" data-hex="#1a365d"></div>
+                <div class="ink-well" style="background:#194bb4;" data-target="default" data-hex="#194bb4"></div>
+                <div class="ink-well" style="background:#14532d;" data-target="default" data-hex="#14532d"></div>
+                <div class="ink-well" style="background:#7c2d12;" data-target="default" data-hex="#7c2d12"></div>
+                <div id="defaultInkPreview" class="ink-well" style="background:#0f0f14;"></div>
+                <span class="ink-hex" id="labelDefaultInk">#0F0F14</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Highlight Ink Reservoir -->
-        <div class="chassis-module">
-          <div class="chassis-header">
-            <span>Accent Ink Well</span>
-            <span class="metric-dial" id="labelQuoteInk">#194BB4</span>
-          </div>
-          <div class="ink-flask-cradle">
-            <div class="flask-swatch-row">
-              <span class="ink-reservoir-well selected" style="background:#194bb4;" data-target="quote" data-hex="#194bb4" title="Waterman Royal Blue"></span>
-              <span class="ink-reservoir-well" style="background:#dc2626;" data-target="quote" data-hex="#dc2626" title="Teacher Vermilion"></span>
-              <span class="ink-reservoir-well" style="background:#059669;" data-target="quote" data-hex="#059669" title="Forest Green"></span>
-              <span class="ink-reservoir-well" style="background:#7c3aed;" data-target="quote" data-hex="#7c3aed" title="Purple Dye"></span>
-              <span class="ink-reservoir-well" style="background:#0f0f14;" data-target="quote" data-hex="#0f0f14" title="Carbon Solid"></span>
-              <div class="custom-well-aperture" id="quoteInkPreview" style="background-color: #194bb4;" title="Custom Accent Tone">
+        <div class="ctrl-group">
+          <div class="ctrl-label">Highlight Ink <code style="color:var(--amber);font-family:var(--ff-mono);font-size:9px;">|text|</code></div>
+          <div class="ink-row">
+            <div class="ink-swatch-group">
+              <div class="ink-swatch-row">
                 <input type="color" id="inputQuoteInk" value="#194bb4">
+                <div class="ink-well active" style="background:#194bb4;" data-target="quote" data-hex="#194bb4"></div>
+                <div class="ink-well" style="background:#0f0f14;" data-target="quote" data-hex="#0f0f14"></div>
+                <div class="ink-well" style="background:#c0392b;" data-target="quote" data-hex="#c0392b"></div>
+                <div class="ink-well" style="background:#7c2d12;" data-target="quote" data-hex="#7c2d12"></div>
+                <div id="quoteInkPreview" class="ink-well" style="background:#194bb4;"></div>
+                <span class="ink-hex" id="labelQuoteInk">#194BB4</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Ruled Paper Background -->
-        <div class="chassis-module">
-          <label class="chassis-header">Parchment Template</label>
-          <select class="parchment-select" id="selectPaperBg">
-            <option value="0">Auto Mix (Natural Notebook Variety)</option>
-            <option value="1">Ruled Sheet 1 (Standard Blue Margin)</option>
-            <option value="2">Ruled Sheet 2 (Warm Archival Tone)</option>
-            <option value="3">Ruled Sheet 3 (Crisp College Ruled)</option>
-            <option value="4">Ruled Sheet 4 (Classic Examination Bed)</option>
+        <!-- Paper -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">Paper Surface</div>
+          <select id="selectPaperBg">
+            <option value="0">Standard Ruled</option>
+            <option value="1">Cream Vellum</option>
+            <option value="2">Graph Paper</option>
+            <option value="3">Aged Parchment</option>
           </select>
         </div>
 
-        <!-- Geometry Sliders -->
-        <div class="chassis-module">
-          <div class="chassis-header">
-            <span>Font Scale Multiplier</span>
-            <span class="metric-dial" id="valFontScale">0.70x</span>
+        <!-- Scale -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">Font Scale <span id="valFontScale">0.70x</span></div>
+          <div class="range-wrap">
+            <input type="range" id="sliderFontScale" min="0.50" max="1.00" step="0.01" value="0.70">
           </div>
-          <input type="range" id="sliderFontScale" min="0.55" max="0.95" step="0.02" value="0.70">
         </div>
 
-        <div class="chassis-module">
-          <div class="chassis-header">
-            <span>Ruled Line Height</span>
-            <span class="metric-dial" id="valLineHeight">110px</span>
+        <div class="ctrl-group">
+          <div class="ctrl-label">Line Height <span id="valLineHeight">110px</span></div>
+          <div class="range-wrap">
+            <input type="range" id="sliderLineHeight" min="85" max="140" step="1" value="110">
           </div>
-          <input type="range" id="sliderLineHeight" min="90" max="135" step="2" value="110">
         </div>
 
-        <div class="chassis-module">
-          <div class="chassis-header">
-            <span>Character Kerning Offset</span>
-            <span class="metric-dial" id="valCharSpacing">-2px</span>
+        <div class="ctrl-group">
+          <div class="ctrl-label">Char Spacing <span id="valCharSpacing">-2px</span></div>
+          <div class="range-wrap">
+            <input type="range" id="sliderCharSpacing" min="-8" max="8" step="1" value="-2">
           </div>
-          <input type="range" id="sliderCharSpacing" min="-5" max="4" step="1" value="-2">
         </div>
 
-        <!-- Realism Imperfection Dynamics -->
-        <div class="chassis-module">
-          <div class="chassis-header">
-            <span>Hand Slant & Wrist Jitter</span>
-            <span class="metric-dial" id="valRotation">1.6°</span>
+        <div class="ctrl-group">
+          <div class="ctrl-label">Micro-Rotation <span id="valRotation">1.6°</span></div>
+          <div class="range-wrap">
+            <input type="range" id="sliderRotation" min="0" max="4" step="0.1" value="1.6">
           </div>
-          <input type="range" id="sliderRotation" min="0" max="3.5" step="0.2" value="1.6">
         </div>
 
-        <div class="chassis-module">
-          <div class="chassis-header">
-            <span>Margin Undulation</span>
-            <span class="metric-dial" id="valMarginIndent">14px</span>
+        <div class="ctrl-group">
+          <div class="ctrl-label">Margin Drift <span id="valMarginIndent">14px</span></div>
+          <div class="range-wrap">
+            <input type="range" id="sliderMarginIndent" min="0" max="40" step="2" value="14">
           </div>
-          <input type="range" id="sliderMarginIndent" min="0" max="28" step="2" value="14">
         </div>
 
-        <!-- Fluid Physics Toggles -->
-        <div class="chassis-module" style="gap: 12px; padding-top: 6px;">
-          <label class="precision-switch-row">
-            <div class="switch-title-block">
-              <span class="headline">Ink Flow Pressure</span>
-              <span class="caption">Authentic pen reservoir flow variance</span>
-            </div>
-            <div class="micro-switch">
-              <input type="checkbox" id="togglePressure" checked>
-              <span class="micro-track"></span>
-            </div>
-          </label>
-
-          <label class="precision-switch-row">
-            <div class="switch-title-block">
-              <span class="headline">Hand Fatigue Drift</span>
-              <span class="caption">Natural progressive tilt over multiple pages</span>
-            </div>
-            <div class="micro-switch">
-              <input type="checkbox" id="toggleFatigue" checked>
-              <span class="micro-track"></span>
-            </div>
-          </label>
-
-          <label class="precision-switch-row">
-            <div class="switch-title-block">
-              <span class="headline">Typographic Normalization</span>
-              <span class="caption">Auto-replaces smart quotes & en-dashes</span>
-            </div>
-            <div class="micro-switch">
-              <input type="checkbox" id="toggleNormalize" checked>
-              <span class="micro-track"></span>
-            </div>
-          </label>
+        <!-- Toggles -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">Authenticity</div>
+          <div class="toggle-row">
+            <label class="toggle-item">
+              <span class="toggle-name">Pressure Variation</span>
+              <div class="toggle-switch">
+                <input type="checkbox" id="togglePressure" checked>
+                <div class="toggle-track"></div>
+              </div>
+            </label>
+            <label class="toggle-item">
+              <span class="toggle-name">Fatigue Drift</span>
+              <div class="toggle-switch">
+                <input type="checkbox" id="toggleFatigue" checked>
+                <div class="toggle-track"></div>
+              </div>
+            </label>
+            <label class="toggle-item">
+              <span class="toggle-name">Auto Normalize</span>
+              <div class="toggle-switch">
+                <input type="checkbox" id="toggleNormalize" checked>
+                <div class="toggle-track"></div>
+              </div>
+            </label>
+          </div>
         </div>
 
       </div>
     </aside>
 
-    <!-- ── 2. THE COMPOSITION SLATE ──────────────────────────────────────── -->
-    <section class="composition-slate">
-      <div class="composition-ribbon">
-        <div class="token-quill-dock">
-          <button class="token-press-pill" id="toolTitle" title="Insert centered title (||..||)">
-            <span>Header</span>
-            <span class="token-glyph-badge">||..||</span>
+    <!-- ── COMPOSE PANE ───────────────────────────────────────────────── -->
+    <section class="pane-compose" id="editorDropZone">
+      <!-- Pane header -->
+      <div class="pane-label">
+        <span class="pane-label-text">Manuscript Text</span>
+        <div class="pane-label-actions">
+          <button class="micro-btn" id="btnLoadSample">
+            <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+            Sample
           </button>
-          <button class="token-press-pill" id="toolQuestion" title="Insert hanging margin question ($1))">
-            <span>Outdent</span>
-            <span class="token-glyph-badge">$1)</span>
+          <button class="micro-btn" id="btnUploadFile">
+            <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Import
           </button>
-          <button class="token-press-pill" id="toolQuote" title="Insert highlight ink text (|..|)">
-            <span>Highlight</span>
-            <span class="token-glyph-badge">|..|</span>
+          <button class="micro-btn" id="btnClearEditor">
+            <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3,6 5,6 21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v2"/></svg>
+            Clear
           </button>
         </div>
+      </div>
 
-        <button class="tactile-btn tactile-btn-ghost" id="btnClearEditor" title="Clear Slate" style="width:28px; height:28px; padding:0;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"/>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-          </svg>
+      <!-- Syntax token shortcuts -->
+      <div class="token-bar">
+        <button class="token-chip" id="toolTitle">
+          <code>||Section||</code>
+          <span>Title</span>
+        </button>
+        <button class="token-chip" id="toolQuestion">
+          <code>$1)</code>
+          <span>Question</span>
+        </button>
+        <button class="token-chip" id="toolQuote">
+          <code>|Blue Ink|</code>
+          <span>Highlight</span>
         </button>
       </div>
 
-      <div class="editor-typeset-floor" id="editorDropZone">
-        <!-- Ruler Gutter -->
-        <div class="arch-ruler-gutter" id="lineGutter">1</div>
-
-        <!-- Textarea -->
-        <textarea id="inputText" placeholder="Inscribe your document here...
-
-Formatting Tokens:
-  ||SECTION - A||    → Centered title written in highlight ink
-  $1) Question:      → Outdented question marker in notebook margin
-  |Keyword|          → Accent ink highlight
-
-Click 'Generate All' or press ⌘ + Enter to execute the manuscript imprint." spellcheck="false"></textarea>
-
-        <!-- Drag Veil -->
-        <div class="drag-vellum-veil" id="dragDropOverlay">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--quink-blue);">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
-          <div style="font-family:var(--font-display); font-size:14px; font-weight:800; color:var(--quink-blue); text-transform:uppercase; letter-spacing:0.04em;">Release file to ingest text</div>
+      <!-- Editor -->
+      <div class="editor-body">
+        <div class="line-gutter" id="lineGutter">
+          <div>1</div>
+        </div>
+        <textarea id="inputText" placeholder="Begin composing your manuscript&#10;&#10;Use || Title || for centered headings&#10;Use | text | to switch to highlight ink&#10;Use $1) to prefix exam-style questions"></textarea>
+        <div class="drag-overlay" id="dragDropOverlay">
+          <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:var(--crimson)"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span class="drag-overlay-label">Drop text file</span>
         </div>
       </div>
 
-      <!-- Footer Folio Metrics -->
-      <div class="slate-folio-footer">
-        <div class="metrics-stream">
-          <span id="statWords">0 words</span>
-          <span class="stream-marker">//</span>
-          <span id="statChars">0 characters</span>
-          <span class="stream-marker">//</span>
-          <span id="statLines">1 line</span>
+      <!-- Metrics footer -->
+      <div class="pane-metrics">
+        <div class="metrics-row">
+          <span class="metric-datum"><strong id="statWords">0</strong> words</span>
+          <span class="metric-sep">·</span>
+          <span class="metric-datum"><strong id="statChars">0</strong> chars</span>
+          <span class="metric-sep">·</span>
+          <span class="metric-datum"><strong id="statLines">1</strong> lines</span>
         </div>
-        <div>
-          <span class="folio-estimate-stamp" id="statEstimate">~1 Folio Page</span>
-        </div>
+        <span class="metric-estimate" id="statEstimate">~1 Sheet</span>
       </div>
+
+      <input type="file" id="hiddenFileInput" accept=".txt,.md" class="sr-only">
     </section>
 
-    <!-- ── 3. THE ARCHIVAL PROOFING PRESS ────────────────────────────────── -->
-    <section class="proofing-press-pane">
-      <div class="press-masthead">
-        <div class="strike-action-cluster">
-          <!-- Primary Strike Button right on the Press -->
-          <button class="btn-strike-monument" id="btnGenerateAllCanvas" title="Inscribe all handwritten sheets (⌘ + Enter)" style="height:32px; font-size:11.5px; padding:0 14px;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-            <span>✨ Generate All Pages</span>
-            <span class="kbd-tag">⌘↵</span>
-          </button>
+    <!-- Resize handle -->
+    <div class="resize-handle" id="resizeHandle"></div>
 
-          <!-- Single Sheet Fast Preview -->
-          <button class="tactile-btn" id="btnFastPreview" title="Quickly proof Sheet 1 (⌘ + ⇧ + Enter)">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-            <span>Proof Sheet 1</span>
-          </button>
-        </div>
-
-        <!-- Export Docket Cluster -->
-        <div class="export-docket-cluster" id="exportActionGroup" style="display: none;">
-          <button class="tactile-btn" id="btnExportPdf" title="Compile & Download Archival PDF (⌘S)" style="background:var(--quink-blue); color:#fff; border-color:#2a66ea;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            <span>Download PDF</span>
-          </button>
-          <button class="tactile-btn tactile-btn-ghost" id="btnExportZip" title="Download all individual sheets as ZIP">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-            </svg>
-            <span>ZIP</span>
-          </button>
-          <button class="tactile-btn tactile-btn-ghost" id="btnExportPng" title="Export active sheet as PNG">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
-            <span>PNG</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Platen Viewport -->
-      <div class="press-stage-viewport" id="canvasViewport">
-
-        <!-- Empty Platen Card -->
-        <div class="empty-platen-card" id="emptyStateWrap">
-          <div class="empty-seal-icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-            </svg>
+    <!-- ── PREVIEW PANE ───────────────────────────────────────────────── -->
+    <section class="pane-preview">
+      <!-- Action bar -->
+      <div class="preview-bar">
+        <div class="preview-bar-left">
+          <div class="page-nav">
+            <button class="page-nav-btn" id="btnPrevPage" title="← Arrow">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+            </button>
+            <span class="page-label" id="pageStepLabel">No manuscript</span>
+            <button class="page-nav-btn" id="btnNextPage" title="→ Arrow">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>
+            </button>
           </div>
-          <div class="empty-headline">Proofing Platen Unstruck</div>
-          <p class="empty-descriptor">Compose text on the slate or ingest sample data. When ready, strike the press to render human handwriting onto ruled notebook fiber.</p>
-          <button class="btn-strike-monument" id="btnEmptyGenerate" style="margin-top: 6px; padding: 0 22px; height: 38px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-            <span>✨ Generate All Pages</span>
-            <span class="kbd-tag">⌘↵</span>
+        </div>
+
+        <div class="preview-bar-right">
+          <button class="btn-ghost" id="btnGenerateAllCanvas" style="display:none;">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Regenerate
           </button>
-        </div>
-
-        <!-- Rendered Manuscript Sheet Stack -->
-        <div class="manuscript-stack-cradle" id="pageStageWrapper" style="display: none;">
-          <img id="mainDisplayPage" class="proofed-manuscript-sheet" src="" alt="Archival Handwritten Manuscript" title="Inspect Fullscreen">
-        </div>
-
-        <!-- Floating Loupe Dock -->
-        <div class="floating-loupe-dock" id="floatingZoomDock" style="display: none;">
-          <button class="loupe-ctrl-btn" id="btnZoomOut" title="Loupe Zoom Out">−</button>
-          <span class="loupe-ratio-readout" id="zoomValueText">100%</span>
-          <button class="loupe-ctrl-btn" id="btnZoomIn" title="Loupe Zoom In">+</button>
-          <button class="loupe-ctrl-btn" id="btnZoomReset" title="Reset Frame">↺</button>
-          <div style="width:1px; height:14px; background:var(--hairline-rule); margin:0 2px;"></div>
-          <button class="loupe-ctrl-btn" id="btnFullscreen" title="Fullscreen Archival Loupe">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 3 21 3 21 9"/>
-              <polyline points="9 21 3 21 3 15"/>
-              <line x1="21" y1="3" x2="14" y2="10"/>
-              <line x1="3" y1="21" x2="10" y2="14"/>
-            </svg>
+          <div class="divider"></div>
+          <div class="zoom-cluster">
+            <button class="zoom-btn" id="btnZoomOut">−</button>
+            <span id="zoomValueText">100%</span>
+            <button class="zoom-btn" id="btnZoomIn">+</button>
+            <button class="zoom-btn" id="btnZoomReset" title="Reset zoom" style="font-size:9px; letter-spacing:0.04em; width:auto; padding:0 6px;">FIT</button>
+          </div>
+          <div class="divider"></div>
+          <button class="zoom-btn" id="btnFullscreen" title="Fullscreen view">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15,3 21,3 21,9"/><polyline points="9,21 3,21 3,15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
           </button>
+          <span id="renderPerfBadgeInner" class="perf-badge" style="display:none">0s</span>
         </div>
-
-        <!-- Capillary Ink Loading Veil -->
-        <div class="ink-capillary-veil" id="loadingGlassOverlay">
-          <div class="capillary-nib-core"></div>
-          <div class="capillary-headline" id="loaderStatusMsg">Inscribing Manuscript...</div>
-          <div class="capillary-telemetry">Deposition of ink fluid across paper fiber matrices</div>
-        </div>
-
       </div>
 
-      <!-- Proofing Filmstrip Footer -->
-      <footer class="press-proofing-footer" id="canvasFooter" style="display: none;">
-        <div class="sheet-indexer-block">
-          <button class="tactile-btn tactile-btn-ghost" id="btnPrevPage" style="width:30px; height:30px; padding:0;" title="Previous Folio Sheet (←)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-          </button>
-          <span class="sheet-folio-index" id="pageStepLabel">Folio 1 of 1</span>
-          <button class="tactile-btn tactile-btn-ghost" id="btnNextPage" style="width:30px; height:30px; padding:0;" title="Next Folio Sheet (→)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </button>
+      <!-- Stage -->
+      <div class="preview-stage" id="previewStage">
+        <!-- Empty state -->
+        <div class="empty-state" id="emptyStateWrap">
+          <div class="empty-rule"></div>
+          <div class="empty-title">Your manuscript<br>awaits <em>ink.</em></div>
+          <div class="empty-sub">Type your text in the composition panel, choose an archetype, and render it into handwritten manuscript pages.</div>
+          <div class="empty-cta-row">
+            <button class="btn-strike" id="btnEmptyGenerate" style="justify-content:center; width:100%;">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Generate All Pages
+            </button>
+            <button class="btn-ghost" id="btnEmptyPreview" style="justify-content:center; width:100%;">
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+              Quick Preview (Page 1)
+            </button>
+          </div>
+          <div class="shortcut-grid">
+            <div class="shortcut-item">
+              <span class="shortcut-label">Generate all</span>
+              <kbd>⌘ Enter</kbd>
+            </div>
+            <div class="shortcut-item">
+              <span class="shortcut-label">Quick preview</span>
+              <kbd>⌘⇧ Enter</kbd>
+            </div>
+            <div class="shortcut-item">
+              <span class="shortcut-label">Export PDF</span>
+              <kbd>⌘ S</kbd>
+            </div>
+            <div class="shortcut-item">
+              <span class="shortcut-label">Syntax guide</span>
+              <kbd>⌘ K</kbd>
+            </div>
+          </div>
         </div>
 
-        <div class="archival-filmstrip-strip" id="thumbnailFilmstrip">
-          <!-- Dynamically populated sheets -->
+        <!-- Page display -->
+        <div class="page-wrapper" id="pageStageWrapper">
+          <img id="mainDisplayPage" class="manuscript-page" src="" alt="Manuscript page">
         </div>
 
-        <div class="press-cycle-chronometer" id="renderPerfBadge">
-          0.82s
+        <!-- Loading veil -->
+        <div class="loading-veil" id="loadingGlassOverlay">
+          <div class="ink-loader">
+            <div class="ink-nib"></div>
+            <div class="ink-drop"></div>
+          </div>
+          <span class="loading-label" id="loaderStatusMsg">Inscribing manuscript...</span>
+          <div class="loading-pulse">
+            <span></span><span></span><span></span>
+          </div>
         </div>
-      </footer>
+      </div>
 
+      <!-- Filmstrip -->
+      <div class="filmstrip-container" id="filmstripContainer">
+        <div class="filmstrip-label">All Sheets</div>
+        <div class="filmstrip" id="thumbnailFilmstrip"></div>
+      </div>
     </section>
 
-  </div>
+  </div><!-- /workspace -->
+</div><!-- /app -->
 
+<!-- ══ LIGHTBOX ═══════════════════════════════════════════════════════════ -->
+<div class="lightbox" id="lightboxScrim">
+  <button class="lightbox-close" id="btnCloseLightbox">✕</button>
+  <img id="lightboxZoomImg" src="" alt="Full-size manuscript">
 </div>
 
-<!-- ══════════════════════════════════════════════════════════════════════════
-     SPECIMEN CATALOG DIALOG
-     ══════════════════════════════════════════════════════════════════════════ -->
-<div class="specimen-modal-scrim" id="syntaxModalScrim">
-  <div class="specimen-folio-dialog">
-    <div class="folio-dialog-header">
-      <span>✍️ Syntax Rules & Specimen Catalog</span>
-      <button class="tactile-btn tactile-btn-ghost" id="btnCloseSyntaxModal" style="width:30px; height:30px; padding:0;">✕</button>
+<!-- ══ SYNTAX GUIDE MODAL ═════════════════════════════════════════════════ -->
+<div class="modal-scrim" id="syntaxModalScrim">
+  <div class="modal-panel">
+    <div class="modal-header">
+      <span class="modal-title">Manuscript Syntax</span>
+      <button class="micro-btn" id="btnCloseSyntaxModal">Close</button>
     </div>
-    <div class="folio-dialog-body">
-
-      <div class="specimen-rule-card">
-        <div class="specimen-card-crest">
-          <span class="specimen-rule-title">🏷️ Centered Heading Stratum</span>
-          <button class="tactile-btn" style="height:24px; padding:0 8px; font-size:11px;" onclick="insertExample('||SECTION - A||')">Inject</button>
-        </div>
-        <div class="specimen-code-stratum">
-          <code>||SECTION - A||</code>
-        </div>
-        <p class="specimen-gloss-text">Enclose titles within double vertical bars <code style="color:var(--quink-blue)">||...||</code> to center the heading and inscribe it in accent ink.</p>
-      </div>
-
-      <div class="specimen-rule-card">
-        <div class="specimen-card-crest">
-          <span class="specimen-rule-title">🔢 Margin Hanging Outdent</span>
-          <button class="tactile-btn" style="height:24px; padding:0 8px; font-size:11px;" onclick="insertExample('$1) Explain Layered Architecture:')">Inject</button>
-        </div>
-        <div class="specimen-code-stratum">
-          <code>$1) Explain Layered Architecture:</code>
-        </div>
-        <p class="specimen-gloss-text">Prefix a line with <code style="color:var(--quink-blue)">$</code> to shift question indices directly into the notebook margin gutter.</p>
-      </div>
-
-      <div class="specimen-rule-card">
-        <div class="specimen-card-crest">
-          <span class="specimen-rule-title">✒️ Ink Reservoir Switching</span>
-          <button class="tactile-btn" style="height:24px; padding:0 8px; font-size:11px;" onclick="insertExample('|System Reliability|')">Inject</button>
-        </div>
-        <div class="specimen-code-stratum">
-          <code>Core attribute is |System Reliability| and fault tolerance.</code>
-        </div>
-        <p class="specimen-gloss-text">Enclose phrases within single bars <code style="color:var(--quink-blue)">|...|</code> to switch to secondary highlight ink.</p>
-      </div>
-
-      <div class="specimen-rule-card">
-        <div class="specimen-card-crest">
-          <span class="specimen-rule-title">📄 Natural Multi-Page Overflow</span>
-        </div>
-        <p class="specimen-gloss-text">Lines advance down ruled paper naturally. When the bottom boundary is met, the press automatically yields a new sheet with natural wrist fatigue.</p>
-      </div>
-
+    <div class="modal-body">
+      <table class="syntax-table">
+        <thead>
+          <tr>
+            <th>Syntax</th>
+            <th>Rendered Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>|| SECTION - A ||</td>
+            <td>
+              Centered title heading, bold weight, centered on its own line.
+              <button class="modal-inject-btn" onclick="insertExample('||SECTION - A||')">↳ Insert</button>
+            </td>
+          </tr>
+          <tr>
+            <td>|important text|</td>
+            <td>
+              Renders in secondary (highlight) ink color — typically blue or red.
+              <button class="modal-inject-btn" onclick="insertExample('|Key Concept|')">↳ Insert</button>
+            </td>
+          </tr>
+          <tr>
+            <td>$1) Question text</td>
+            <td>
+              Exam-style question prefix: bold number and bracket styling.
+              <button class="modal-inject-btn" onclick="insertExample('$1) Explain the concept below.')">↳ Insert</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Name:|Student Name|</td>
+            <td>
+              Header field: left label in default ink, right value in highlight ink.
+            </td>
+          </tr>
+          <tr>
+            <td>(blank line)</td>
+            <td>Advances one full ruled line, creating paragraph spacing.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════════════════════
-     FULLSCREEN HIGH-DEFINITION LOUPE
-     ══════════════════════════════════════════════════════════════════════════ -->
-<div class="loupe-fullscreen-scrim" id="lightboxScrim">
-  <button class="loupe-close-trigger" id="btnCloseLightbox" title="Exit Loupe (Esc)">✕</button>
-  <img id="lightboxZoomImg" class="fullscreen-proof-canvas" src="" alt="High-Definition Archival Manuscript">
-</div>
+<!-- ══ TOAST CONTAINER ═══════════════════════════════════════════════════ -->
+<div id="toastStack"></div>
 
-<!-- Floating Toast Dock -->
-<div class="atelier-toast-dock" id="toastStack"></div>
-
-<!-- ══════════════════════════════════════════════════════════════════════════
-     PRODUCTION CONTROLLER & INTEGRATION
-     ══════════════════════════════════════════════════════════════════════════ -->
+<!-- ══ CONTROLLER SCRIPT ══════════════════════════════════════════════════ -->
 <script>
-  // Core Atelier State
-  const appState = {
+  'use strict';
+
+  /* ── Custom Cursor ────────────────────────────────────────────────────── */
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top  = mouseY + 'px';
+  });
+
+  (function animRing() {
+    ringX += (mouseX - ringX) * 0.14;
+    ringY += (mouseY - ringY) * 0.14;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top  = ringY + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  document.querySelectorAll('button, a, input[type=range], select, textarea').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursorRing.style.width = '44px';
+      cursorRing.style.height = '44px';
+      cursorDot.style.transform = 'translate(-50%,-50%) scale(1.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursorRing.style.width = '28px';
+      cursorRing.style.height = '28px';
+      cursorDot.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+  });
+
+  /* ── App State ────────────────────────────────────────────────────────── */
+  const state = {
     sessionId: null,
     totalPages: 0,
     currentPage: 1,
     pages: [],
-    zoomFactor: 1.0,
+    zoom: 1.0,
     isRendering: false,
-    activePreset: 'exam',
   };
 
-  // Preset Configurations
-  const PRESET_CONFIGS = {
-    exam: {
-      default_ink_color: '#0f0f14',
-      quote_ink_color: '#194bb4',
-      font_scale: 0.70,
-      line_height: 110,
-      char_spacing_offset: -2,
-      random_rotation: 1.6,
-      random_line_indent: 14,
-    },
-    assignment: {
-      default_ink_color: '#1a365d',
-      quote_ink_color: '#0f0f14',
-      font_scale: 0.72,
-      line_height: 112,
-      char_spacing_offset: -2,
-      random_rotation: 1.4,
-      random_line_indent: 12,
-    },
-    royal: {
-      default_ink_color: '#194bb4',
-      quote_ink_color: '#0f0f14',
-      font_scale: 0.75,
-      line_height: 110,
-      char_spacing_offset: -1,
-      random_rotation: 1.8,
-      random_line_indent: 16,
-    },
-    compact: {
-      default_ink_color: '#0f0f14',
-      quote_ink_color: '#194bb4',
-      font_scale: 0.62,
-      line_height: 100,
-      char_spacing_offset: -3,
-      random_rotation: 1.2,
-      random_line_indent: 10,
-    }
+  const PRESETS = {
+    exam:       { default_ink_color:'#0f0f14', quote_ink_color:'#194bb4', font_scale:0.70, line_height:110, char_spacing_offset:-2, random_rotation:1.6, random_line_indent:14 },
+    assignment: { default_ink_color:'#1a365d', quote_ink_color:'#0f0f14', font_scale:0.72, line_height:112, char_spacing_offset:-2, random_rotation:1.4, random_line_indent:12 },
+    royal:      { default_ink_color:'#194bb4', quote_ink_color:'#0f0f14', font_scale:0.75, line_height:110, char_spacing_offset:-1, random_rotation:1.8, random_line_indent:16 },
+    compact:    { default_ink_color:'#0f0f14', quote_ink_color:'#194bb4', font_scale:0.62, line_height:100, char_spacing_offset:-3, random_rotation:1.2, random_line_indent:10 },
   };
 
-  // DOM Elements
-  const inputText = document.getElementById('inputText');
-  const lineGutter = document.getElementById('lineGutter');
-  const btnGenerateAll = document.getElementById('btnGenerateAll');
-  const btnGenerateAllCanvas = document.getElementById('btnGenerateAllCanvas');
-  const btnEmptyGenerate = document.getElementById('btnEmptyGenerate');
-  const btnFastPreview = document.getElementById('btnFastPreview');
-  const btnLoadSample = document.getElementById('btnLoadSample');
-  const btnUploadFile = document.getElementById('btnUploadFile');
-  const hiddenFileInput = document.getElementById('hiddenFileInput');
-  const btnClearEditor = document.getElementById('btnClearEditor');
-  const btnToggleSettings = document.getElementById('btnToggleSettings');
-  const settingsDrawer = document.getElementById('settingsDrawer');
-  const btnToggleTheme = document.getElementById('btnToggleTheme');
-  const btnOpenGuide = document.getElementById('btnOpenGuide');
-  const syntaxModalScrim = document.getElementById('syntaxModalScrim');
-  const btnCloseSyntaxModal = document.getElementById('btnCloseSyntaxModal');
-  const lightboxScrim = document.getElementById('lightboxScrim');
-  const lightboxZoomImg = document.getElementById('lightboxZoomImg');
-  const btnCloseLightbox = document.getElementById('btnCloseLightbox');
+  /* ── DOM refs ─────────────────────────────────────────────────────────── */
+  const $ = id => document.getElementById(id);
+  const inputText          = $('inputText');
+  const lineGutter         = $('lineGutter');
+  const btnGenerateAll     = $('btnGenerateAll');
+  const btnGenerateAllCanvas = $('btnGenerateAllCanvas');
+  const btnEmptyGenerate   = $('btnEmptyGenerate');
+  const btnEmptyPreview    = $('btnEmptyPreview');
+  const btnFastPreview     = $('btnFastPreview');
+  const btnLoadSample      = $('btnLoadSample');
+  const btnUploadFile      = $('btnUploadFile');
+  const hiddenFileInput    = $('hiddenFileInput');
+  const btnClearEditor     = $('btnClearEditor');
+  const settingsDrawer     = $('settingsDrawer');
+  const syntaxModalScrim   = $('syntaxModalScrim');
+  const lightboxScrim      = $('lightboxScrim');
+  const lightboxZoomImg    = $('lightboxZoomImg');
+  const emptyStateWrap     = $('emptyStateWrap');
+  const pageStageWrapper   = $('pageStageWrapper');
+  const mainDisplayPage    = $('mainDisplayPage');
+  const filmstripContainer = $('filmstripContainer');
+  const thumbnailFilmstrip = $('thumbnailFilmstrip');
+  const pageStepLabel      = $('pageStepLabel');
+  const loadingGlassOverlay= $('loadingGlassOverlay');
+  const loaderStatusMsg    = $('loaderStatusMsg');
+  const exportActionGroup  = $('exportActionGroup');
+  const inputDefaultInk    = $('inputDefaultInk');
+  const inputQuoteInk      = $('inputQuoteInk');
+  const defaultInkPreview  = $('defaultInkPreview');
+  const quoteInkPreview    = $('quoteInkPreview');
+  const labelDefaultInk    = $('labelDefaultInk');
+  const labelQuoteInk      = $('labelQuoteInk');
+  const selectPaperBg      = $('selectPaperBg');
+  const sliderFontScale    = $('sliderFontScale');
+  const sliderLineHeight   = $('sliderLineHeight');
+  const sliderCharSpacing  = $('sliderCharSpacing');
+  const sliderRotation     = $('sliderRotation');
+  const sliderMarginIndent = $('sliderMarginIndent');
+  const togglePressure     = $('togglePressure');
+  const toggleFatigue      = $('toggleFatigue');
+  const toggleNormalize    = $('toggleNormalize');
+  const valFontScale       = $('valFontScale');
+  const valLineHeight      = $('valLineHeight');
+  const valCharSpacing     = $('valCharSpacing');
+  const valRotation        = $('valRotation');
+  const valMarginIndent    = $('valMarginIndent');
+  const statWords          = $('statWords');
+  const statChars          = $('statChars');
+  const statLines          = $('statLines');
+  const statEstimate       = $('statEstimate');
 
-  // Preview elements
-  const emptyStateWrap = document.getElementById('emptyStateWrap');
-  const pageStageWrapper = document.getElementById('pageStageWrapper');
-  const mainDisplayPage = document.getElementById('mainDisplayPage');
-  const floatingZoomDock = document.getElementById('floatingZoomDock');
-  const canvasFooter = document.getElementById('canvasFooter');
-  const exportActionGroup = document.getElementById('exportActionGroup');
-  const thumbnailFilmstrip = document.getElementById('thumbnailFilmstrip');
-  const pageStepLabel = document.getElementById('pageStepLabel');
-  const renderPerfBadge = document.getElementById('renderPerfBadge');
-  const loadingGlassOverlay = document.getElementById('loadingGlassOverlay');
-  const loaderStatusMsg = document.getElementById('loaderStatusMsg');
-
-  // Controls
-  const inputDefaultInk = document.getElementById('inputDefaultInk');
-  const inputQuoteInk = document.getElementById('inputQuoteInk');
-  const defaultInkPreview = document.getElementById('defaultInkPreview');
-  const quoteInkPreview = document.getElementById('quoteInkPreview');
-  const labelDefaultInk = document.getElementById('labelDefaultInk');
-  const labelQuoteInk = document.getElementById('labelQuoteInk');
-  const selectPaperBg = document.getElementById('selectPaperBg');
-  const sliderFontScale = document.getElementById('sliderFontScale');
-  const sliderLineHeight = document.getElementById('sliderLineHeight');
-  const sliderCharSpacing = document.getElementById('sliderCharSpacing');
-  const sliderRotation = document.getElementById('sliderRotation');
-  const sliderMarginIndent = document.getElementById('sliderMarginIndent');
-  const togglePressure = document.getElementById('togglePressure');
-  const toggleFatigue = document.getElementById('toggleFatigue');
-  const toggleNormalize = document.getElementById('toggleNormalize');
-
-  // Badges
-  const valFontScale = document.getElementById('valFontScale');
-  const valLineHeight = document.getElementById('valLineHeight');
-  const valCharSpacing = document.getElementById('valCharSpacing');
-  const valRotation = document.getElementById('valRotation');
-  const valMarginIndent = document.getElementById('valMarginIndent');
-
-  // Metrics
-  const statWords = document.getElementById('statWords');
-  const statChars = document.getElementById('statChars');
-  const statLines = document.getElementById('statLines');
-  const statEstimate = document.getElementById('statEstimate');
-
-  // Atmospheric Toast Notification
-  function showToast(message, duration = 2800) {
-    const toast = document.createElement('div');
-    toast.className = 'tactile-toast-stamp';
-    toast.innerHTML = `
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--quink-blue);">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="16" x2="12" y2="12"/>
-        <line x1="12" y1="8" x2="12.01" y2="8"/>
-      </svg>
-      <span>${message}</span>
-    `;
-    document.getElementById('toastStack').appendChild(toast);
+  /* ── Toast ────────────────────────────────────────────────────────────── */
+  function toast(msg, duration = 2600) {
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.innerHTML = `<div class="toast-dot"></div><span>${msg}</span>`;
+    $('toastStack').appendChild(el);
     setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(12px)';
-      toast.style.transition = 'all 0.22s var(--trans-instant)';
-      setTimeout(() => toast.remove(), 240);
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(10px)';
+      el.style.transition = 'all 0.2s';
+      setTimeout(() => el.remove(), 220);
     }, duration);
   }
 
-  // Update Slate Metrics & Architectural Ruler
-  function updateEditorStats() {
+  /* ── Editor Stats ─────────────────────────────────────────────────────── */
+  function updateStats() {
     const text = inputText.value;
-    const chars = text.length;
+    const lines = text.split('\n');
     const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-    const lines = text.split('\n').length;
+    statWords.textContent = words;
+    statChars.textContent = text.length;
+    statLines.textContent = lines.length;
+    statEstimate.textContent = `~${Math.max(1, Math.ceil(lines.length / 28))} Sheet${Math.max(1, Math.ceil(lines.length / 28)) > 1 ? 's' : ''}`;
 
-    statWords.textContent = `${words} word${words !== 1 ? 's' : ''}`;
-    statChars.textContent = `${chars} char${chars !== 1 ? 's' : ''}`;
-    statLines.textContent = `${lines} line${lines !== 1 ? 's' : ''}`;
-
-    let gutterHTML = '';
-    for (let i = 1; i <= lines; i++) {
-      gutterHTML += `<div>${i}</div>`;
-    }
-    lineGutter.innerHTML = gutterHTML;
-
-    const est = Math.max(1, Math.ceil(lines / 28));
-    statEstimate.textContent = `~${est} Folio Sheet${est > 1 ? 's' : ''}`;
+    let html = '';
+    for (let i = 1; i <= lines.length; i++) html += `<div>${i}</div>`;
+    lineGutter.innerHTML = html;
   }
 
-  inputText.addEventListener('input', updateEditorStats);
+  inputText.addEventListener('input', updateStats);
+  inputText.addEventListener('scroll', () => { lineGutter.scrollTop = inputText.scrollTop; });
 
-  inputText.addEventListener('scroll', () => {
-    lineGutter.scrollTop = inputText.scrollTop;
-  });
-
-  // Tab & Keyboard Shortcuts
-  inputText.addEventListener('keydown', (e) => {
+  /* ── Keyboard ─────────────────────────────────────────────────────────── */
+  inputText.addEventListener('keydown', e => {
     if (e.key === 'Tab') {
       e.preventDefault();
-      const start = inputText.selectionStart;
-      const end = inputText.selectionEnd;
-      inputText.value = inputText.value.substring(0, start) + '    ' + inputText.value.substring(end);
-      inputText.selectionStart = inputText.selectionEnd = start + 4;
-      updateEditorStats();
+      const s = inputText.selectionStart, end = inputText.selectionEnd;
+      inputText.value = inputText.value.substring(0, s) + '    ' + inputText.value.substring(end);
+      inputText.selectionStart = inputText.selectionEnd = s + 4;
+      updateStats();
     } else if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
-      if (e.shiftKey) {
-        triggerRender(true);
-      } else {
-        triggerRender(false);
-      }
+      triggerRender(!!e.shiftKey);
     } else if ((e.metaKey || e.ctrlKey) && (e.key === 's' || e.key === 'S')) {
       e.preventDefault();
-      if (appState.sessionId) {
-        document.getElementById('btnExportPdf').click();
-      }
+      if (state.sessionId) $('btnExportPdf').click();
     }
   });
 
-  // Token Injection
-  function wrapSelection(prefix, suffix, placeholder = 'Text') {
-    const start = inputText.selectionStart;
-    const end = inputText.selectionEnd;
-    const sel = inputText.value.substring(start, end) || placeholder;
-    const rep = prefix + sel + suffix;
-    inputText.value = inputText.value.substring(0, start) + rep + inputText.value.substring(end);
-    inputText.selectionStart = start + prefix.length;
-    inputText.selectionEnd = start + prefix.length + sel.length;
-    inputText.focus();
-    updateEditorStats();
-  }
-
-  document.getElementById('toolTitle').addEventListener('click', () => {
-    wrapSelection('||', '||', 'SECTION - A');
-  });
-
-  document.getElementById('toolQuestion').addEventListener('click', () => {
-    const start = inputText.selectionStart;
-    const val = inputText.value;
-    const lineStart = val.lastIndexOf('\n', start - 1) + 1;
-    inputText.value = val.substring(0, lineStart) + '$1) ' + val.substring(lineStart);
-    inputText.selectionStart = inputText.selectionEnd = lineStart + 4;
-    inputText.focus();
-    updateEditorStats();
-  });
-
-  document.getElementById('toolQuote').addEventListener('click', () => {
-    wrapSelection('|', '|', 'Important Concept');
-  });
-
-  btnClearEditor.addEventListener('click', () => {
-    if (confirm('Clear composition slate?')) {
-      inputText.value = '';
-      updateEditorStats();
-      showToast('Composition slate cleared');
-    }
-  });
-
-  function insertExample(snippet) {
-    const start = inputText.selectionStart;
-    inputText.value = inputText.value.substring(0, start) + '\n' + snippet + '\n' + inputText.value.substring(start);
-    syntaxModalScrim.classList.remove('active');
-    inputText.focus();
-    updateEditorStats();
-    showToast('Specimen inserted into slate');
-  }
-
-  // Toggle Toolchest Drawer
-  btnToggleSettings.addEventListener('click', () => {
-    settingsDrawer.classList.toggle('collapsed');
-  });
-
-  // Presets
-  document.querySelectorAll('#presetTabs .archetype-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('#presetTabs .archetype-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const preset = tab.dataset.preset;
-      appState.activePreset = preset;
-      if (PRESET_CONFIGS[preset]) {
-        applyConfig(PRESET_CONFIGS[preset]);
-        showToast(`Archetype: ${tab.textContent}`);
-      }
-    });
-  });
-
-  function applyConfig(cfg) {
-    if (cfg.default_ink_color) {
-      inputDefaultInk.value = cfg.default_ink_color;
-      defaultInkPreview.style.backgroundColor = cfg.default_ink_color;
-      labelDefaultInk.textContent = cfg.default_ink_color.toUpperCase();
-      syncSwatch('default', cfg.default_ink_color);
-    }
-    if (cfg.quote_ink_color) {
-      inputQuoteInk.value = cfg.quote_ink_color;
-      quoteInkPreview.style.backgroundColor = cfg.quote_ink_color;
-      labelQuoteInk.textContent = cfg.quote_ink_color.toUpperCase();
-      syncSwatch('quote', cfg.quote_ink_color);
-    }
-    if (cfg.font_scale !== undefined) {
-      sliderFontScale.value = cfg.font_scale;
-      valFontScale.textContent = cfg.font_scale.toFixed(2) + 'x';
-    }
-    if (cfg.line_height !== undefined) {
-      sliderLineHeight.value = cfg.line_height;
-      valLineHeight.textContent = cfg.line_height + 'px';
-    }
-    if (cfg.char_spacing_offset !== undefined) {
-      sliderCharSpacing.value = cfg.char_spacing_offset;
-      valCharSpacing.textContent = cfg.char_spacing_offset + 'px';
-    }
-    if (cfg.random_rotation !== undefined) {
-      sliderRotation.value = cfg.random_rotation;
-      valRotation.textContent = cfg.random_rotation + '°';
-    }
-    if (cfg.random_line_indent !== undefined) {
-      sliderMarginIndent.value = cfg.random_line_indent;
-      valMarginIndent.textContent = cfg.random_line_indent + 'px';
-    }
-  }
-
-  function syncSwatch(target, hex) {
-    document.querySelectorAll(`.ink-reservoir-well[data-target="${target}"]`).forEach(chip => {
-      if (chip.dataset.hex.toLowerCase() === hex.toLowerCase()) {
-        chip.classList.add('selected');
-      } else {
-        chip.classList.remove('selected');
-      }
-    });
-  }
-
-  inputDefaultInk.addEventListener('input', (e) => {
-    const val = e.target.value;
-    defaultInkPreview.style.backgroundColor = val;
-    labelDefaultInk.textContent = val.toUpperCase();
-    syncSwatch('default', val);
-  });
-
-  inputQuoteInk.addEventListener('input', (e) => {
-    const val = e.target.value;
-    quoteInkPreview.style.backgroundColor = val;
-    labelQuoteInk.textContent = val.toUpperCase();
-    syncSwatch('quote', val);
-  });
-
-  document.querySelectorAll('.ink-reservoir-well').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const target = chip.dataset.target;
-      const hex = chip.dataset.hex;
-      if (target === 'default') {
-        inputDefaultInk.value = hex;
-        defaultInkPreview.style.backgroundColor = hex;
-        labelDefaultInk.textContent = hex.toUpperCase();
-        syncSwatch('default', hex);
-      } else {
-        inputQuoteInk.value = hex;
-        quoteInkPreview.style.backgroundColor = hex;
-        labelQuoteInk.textContent = hex.toUpperCase();
-        syncSwatch('quote', hex);
-      }
-    });
-  });
-
-  sliderFontScale.addEventListener('input', (e) => {
-    valFontScale.textContent = parseFloat(e.target.value).toFixed(2) + 'x';
-  });
-  sliderLineHeight.addEventListener('input', (e) => {
-    valLineHeight.textContent = e.target.value + 'px';
-  });
-  sliderCharSpacing.addEventListener('input', (e) => {
-    valCharSpacing.textContent = e.target.value + 'px';
-  });
-  sliderRotation.addEventListener('input', (e) => {
-    valRotation.textContent = e.target.value + '°';
-  });
-  sliderMarginIndent.addEventListener('input', (e) => {
-    valMarginIndent.textContent = e.target.value + 'px';
-  });
-
-  document.getElementById('btnResetStyles').addEventListener('click', () => {
-    applyConfig(PRESET_CONFIGS.exam);
-    selectPaperBg.value = "0";
-    togglePressure.checked = true;
-    toggleFatigue.checked = true;
-    toggleNormalize.checked = true;
-    document.querySelector('#presetTabs .archetype-tab[data-preset="exam"]').classList.add('active');
-    showToast('Atelier calibrated to standard values');
-  });
-
-  // Load Sample
-  btnLoadSample.addEventListener('click', async () => {
-    try {
-      const res = await fetch('/api/sample');
-      const data = await res.json();
-      if (data.status === 'success') {
-        inputText.value = data.text;
-        updateEditorStats();
-        showToast('Manuscript sample loaded');
-      }
-    } catch (err) {
-      showToast('Error loading sample: ' + err.message);
-    }
-  });
-
-  // Import File
-  btnUploadFile.addEventListener('click', () => hiddenFileInput.click());
-  hiddenFileInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (data.status === 'success') {
-        inputText.value = data.text;
-        updateEditorStats();
-        showToast(`Ingested ${data.filename}`);
-      } else {
-        showToast('Upload failed: ' + data.message);
-      }
-    } catch (err) {
-      showToast('Import error: ' + err.message);
-    } finally {
-      hiddenFileInput.value = '';
-    }
-  });
-
-  // Drag and Drop
-  const editorDropZone = document.getElementById('editorDropZone');
-  const dragDropOverlay = document.getElementById('dragDropOverlay');
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    editorDropZone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      dragDropOverlay.classList.add('active');
-    });
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    editorDropZone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      dragDropOverlay.classList.remove('active');
-    });
-  });
-
-  editorDropZone.addEventListener('drop', async (e) => {
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      const file = files[0];
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const res = await fetch('/api/upload', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.status === 'success') {
-          inputText.value = data.text;
-          updateEditorStats();
-          showToast(`Ingested ${data.filename}`);
-        }
-      } catch (err) {
-        showToast('Error reading file: ' + err.message);
-      }
-    }
-  });
-
-  function getPayloadConfig() {
-    return {
-      default_ink_color: inputDefaultInk.value,
-      quote_ink_color: inputQuoteInk.value,
-      background_choice: parseInt(selectPaperBg.value, 10),
-      font_scale: parseFloat(sliderFontScale.value),
-      line_height: parseInt(sliderLineHeight.value, 10),
-      char_spacing_offset: parseInt(sliderCharSpacing.value, 10),
-      random_rotation: parseFloat(sliderRotation.value),
-      random_line_indent: parseInt(sliderMarginIndent.value, 10),
-      enable_pressure: togglePressure.checked,
-      enable_fatigue: toggleFatigue.checked,
-    };
-  }
-
-  // Render Execution
-  async function triggerRender(previewOnly = false) {
-    const text = inputText.value.trim();
-    if (!text) {
-      showToast('Slate empty — inscribe text first');
-      inputText.focus();
-      return;
-    }
-
-    appState.isRendering = true;
-    loaderStatusMsg.textContent = previewOnly ? 'Proofing Sheet 1...' : 'Inscribing Manuscript...';
-    loadingGlassOverlay.classList.add('active');
-
-    try {
-      const payload = {
-        text: text,
-        config: getPayloadConfig(),
-        preview_only: previewOnly,
-        auto_normalize: toggleNormalize.checked,
-      };
-
-      const res = await fetch('/api/render', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-
-      if (data.status === 'success') {
-        appState.sessionId = data.session_id;
-        appState.totalPages = data.total_pages;
-        appState.pages = data.pages;
-        appState.currentPage = 1;
-
-        renderPerfBadge.textContent = `${data.render_time_sec}s`;
-        displayPage(1);
-        buildFilmstrip();
-
-        emptyStateWrap.style.display = 'none';
-        pageStageWrapper.style.display = 'flex';
-        floatingZoomDock.style.display = 'flex';
-        canvasFooter.style.display = 'flex';
-        exportActionGroup.style.display = 'flex';
-
-        showToast(previewOnly ? 'Sheet 1 proofed' : `Inscribed ${data.total_pages} sheet${data.total_pages > 1 ? 's' : ''}`);
-      } else {
-        showToast('Imprint failed: ' + data.message);
-      }
-    } catch (err) {
-      showToast('Connection error: ' + err.message);
-    } finally {
-      appState.isRendering = false;
-      loadingGlassOverlay.classList.remove('active');
-    }
-  }
-
-  // All Generate Button Listeners
-  btnGenerateAll.addEventListener('click', () => triggerRender(false));
-  if (btnGenerateAllCanvas) {
-    btnGenerateAllCanvas.addEventListener('click', () => triggerRender(false));
-  }
-  if (btnEmptyGenerate) {
-    btnEmptyGenerate.addEventListener('click', () => triggerRender(false));
-  }
-  btnFastPreview.addEventListener('click', () => triggerRender(true));
-
-  // Display Specific Page
-  function displayPage(pageNumber) {
-    if (!appState.pages || pageNumber < 1 || pageNumber > appState.pages.length) return;
-    appState.currentPage = pageNumber;
-
-    const pageInfo = appState.pages[pageNumber - 1];
-    mainDisplayPage.src = pageInfo.url;
-    pageStepLabel.textContent = `Folio ${pageNumber} of ${appState.totalPages}`;
-
-    document.querySelectorAll('.proof-thumbnail-card').forEach((card, idx) => {
-      if (idx + 1 === pageNumber) {
-        card.classList.add('active');
-        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      } else {
-        card.classList.remove('active');
-      }
-    });
-  }
-
-  // Filmstrip Builder
-  function buildFilmstrip() {
-    thumbnailFilmstrip.innerHTML = '';
-    appState.pages.forEach((page, idx) => {
-      const card = document.createElement('button');
-      card.className = `proof-thumbnail-card ${idx === 0 ? 'active' : ''}`;
-      card.title = `Folio Sheet ${page.page_num}`;
-      
-      const img = document.createElement('img');
-      img.src = page.thumb_url;
-      img.alt = `Folio ${page.page_num}`;
-      
-      const tag = document.createElement('span');
-      tag.className = 'proof-folio-tag';
-      tag.textContent = page.page_num;
-
-      card.appendChild(img);
-      card.appendChild(tag);
-
-      card.addEventListener('click', () => displayPage(page.page_num));
-      thumbnailFilmstrip.appendChild(card);
-    });
-  }
-
-  document.getElementById('btnPrevPage').addEventListener('click', () => {
-    if (appState.currentPage > 1) displayPage(appState.currentPage - 1);
-  });
-
-  document.getElementById('btnNextPage').addEventListener('click', () => {
-    if (appState.currentPage < appState.totalPages) displayPage(appState.currentPage + 1);
-  });
-
-  // Loupe Zoom
-  function applyZoom(factor) {
-    appState.zoomFactor = Math.max(0.5, Math.min(2.5, factor));
-    pageStageWrapper.style.transform = `scale(${appState.zoomFactor})`;
-    document.getElementById('zoomValueText').textContent = Math.round(appState.zoomFactor * 100) + '%';
-  }
-
-  document.getElementById('btnZoomIn').addEventListener('click', () => applyZoom(appState.zoomFactor + 0.15));
-  document.getElementById('btnZoomOut').addEventListener('click', () => applyZoom(appState.zoomFactor - 0.15));
-  document.getElementById('btnZoomReset').addEventListener('click', () => applyZoom(1.0));
-
-  // Fullscreen Loupe
-  mainDisplayPage.addEventListener('click', () => {
-    if (mainDisplayPage.src) {
-      lightboxZoomImg.src = mainDisplayPage.src;
-      lightboxScrim.classList.add('active');
-    }
-  });
-
-  document.getElementById('btnFullscreen').addEventListener('click', () => {
-    if (mainDisplayPage.src) {
-      lightboxZoomImg.src = mainDisplayPage.src;
-      lightboxScrim.classList.add('active');
-    }
-  });
-
-  btnCloseLightbox.addEventListener('click', () => lightboxScrim.classList.remove('active'));
-  lightboxScrim.addEventListener('click', (e) => {
-    if (e.target === lightboxScrim) lightboxScrim.classList.remove('active');
-  });
-
-  // Export Directives
-  document.getElementById('btnExportPdf').addEventListener('click', () => {
-    if (!appState.sessionId) return;
-    showToast('Compiling Archival PDF...');
-    window.location.href = `/api/download/pdf/${appState.sessionId}?name=handwritten_manuscript.pdf`;
-  });
-
-  document.getElementById('btnExportZip').addEventListener('click', () => {
-    if (!appState.sessionId) return;
-    showToast('Bundling folio archive (ZIP)...');
-    window.location.href = `/api/download/zip/${appState.sessionId}?name=handwritten_folio_sheets.zip`;
-  });
-
-  document.getElementById('btnExportPng').addEventListener('click', () => {
-    if (!appState.sessionId) return;
-    window.location.href = `/api/download/page/${appState.sessionId}/${appState.currentPage}`;
-  });
-
-  btnOpenGuide.addEventListener('click', () => syntaxModalScrim.classList.add('active'));
-  btnCloseSyntaxModal.addEventListener('click', () => syntaxModalScrim.classList.remove('active'));
-  syntaxModalScrim.addEventListener('click', (e) => {
-    if (e.target === syntaxModalScrim) syntaxModalScrim.classList.remove('active');
-  });
-
-  // Global Shortcuts
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       syntaxModalScrim.classList.remove('active');
       lightboxScrim.classList.remove('active');
@@ -2472,27 +1853,394 @@ Click 'Generate All' or press ⌘ + Enter to execute the manuscript imprint." sp
       syntaxModalScrim.classList.toggle('active');
     } else if (e.altKey && (e.key === 's' || e.key === 'S')) {
       e.preventDefault();
-      btnToggleSettings.click();
-    } else if (e.key === 'ArrowLeft' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-      if (appState.currentPage > 1) displayPage(appState.currentPage - 1);
-    } else if (e.key === 'ArrowRight' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-      if (appState.currentPage < appState.totalPages) displayPage(appState.currentPage + 1);
+      toggleSettings();
+    } else if (e.key === 'ArrowLeft' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+      if (state.currentPage > 1) displayPage(state.currentPage - 1);
+    } else if (e.key === 'ArrowRight' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+      if (state.currentPage < state.totalPages) displayPage(state.currentPage + 1);
     }
   });
 
-  btnToggleTheme.addEventListener('click', () => {
-    const isDark = document.body.getAttribute('data-theme') !== 'light';
-    if (isDark) {
-      document.body.setAttribute('data-theme', 'light');
-    } else {
-      document.body.removeAttribute('data-theme');
+  /* ── Token insertion ──────────────────────────────────────────────────── */
+  function wrap(prefix, suffix, placeholder = 'Text') {
+    const s = inputText.selectionStart, e = inputText.selectionEnd;
+    const sel = inputText.value.substring(s, e) || placeholder;
+    const rep = prefix + sel + suffix;
+    inputText.value = inputText.value.substring(0, s) + rep + inputText.value.substring(e);
+    inputText.selectionStart = s + prefix.length;
+    inputText.selectionEnd   = s + prefix.length + sel.length;
+    inputText.focus(); updateStats();
+  }
+
+  $('toolTitle').addEventListener('click',    () => wrap('||', '||', 'SECTION - A'));
+  $('toolQuote').addEventListener('click',    () => wrap('|', '|', 'Important Concept'));
+  $('toolQuestion').addEventListener('click', () => {
+    const s = inputText.selectionStart, val = inputText.value;
+    const ls = val.lastIndexOf('\n', s - 1) + 1;
+    inputText.value = val.substring(0, ls) + '$1) ' + val.substring(ls);
+    inputText.selectionStart = inputText.selectionEnd = ls + 4;
+    inputText.focus(); updateStats();
+  });
+
+  function insertExample(snippet) {
+    const s = inputText.selectionStart;
+    inputText.value = inputText.value.substring(0, s) + '\n' + snippet + '\n' + inputText.value.substring(s);
+    syntaxModalScrim.classList.remove('active');
+    inputText.focus(); updateStats();
+    toast('Snippet inserted');
+  }
+
+  /* ── Settings toggle ──────────────────────────────────────────────────── */
+  function toggleSettings() {
+    settingsDrawer.classList.toggle('hidden');
+  }
+  $('navSettings').addEventListener('click', toggleSettings);
+  $('btnToggleTheme').addEventListener('click', () => {
+    const html = document.documentElement;
+    html.setAttribute('data-scheme', html.getAttribute('data-scheme') === 'light' ? 'dark' : 'light');
+  });
+
+  /* ── Nav ──────────────────────────────────────────────────────────────── */
+  $('navCompose').addEventListener('click', () => {
+    document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+    $('navCompose').classList.add('active');
+  });
+  $('navSettings').addEventListener('click', () => {
+    document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+    $('navSettings').classList.add('active');
+  });
+  $('navGuide').addEventListener('click', () => {
+    syntaxModalScrim.classList.add('active');
+  });
+  $('btnOpenGuide') && $('btnOpenGuide').addEventListener('click', () => syntaxModalScrim.classList.add('active'));
+
+  /* ── Preset application ───────────────────────────────────────────────── */
+  function applyConfig(cfg) {
+    if (cfg.default_ink_color) {
+      inputDefaultInk.value = cfg.default_ink_color;
+      defaultInkPreview.style.backgroundColor = cfg.default_ink_color;
+      labelDefaultInk.textContent = cfg.default_ink_color.toUpperCase();
+      syncWell('default', cfg.default_ink_color);
+    }
+    if (cfg.quote_ink_color) {
+      inputQuoteInk.value = cfg.quote_ink_color;
+      quoteInkPreview.style.backgroundColor = cfg.quote_ink_color;
+      labelQuoteInk.textContent = cfg.quote_ink_color.toUpperCase();
+      syncWell('quote', cfg.quote_ink_color);
+    }
+    if (cfg.font_scale !== undefined) { sliderFontScale.value = cfg.font_scale; valFontScale.textContent = parseFloat(cfg.font_scale).toFixed(2) + 'x'; }
+    if (cfg.line_height !== undefined) { sliderLineHeight.value = cfg.line_height; valLineHeight.textContent = cfg.line_height + 'px'; }
+    if (cfg.char_spacing_offset !== undefined) { sliderCharSpacing.value = cfg.char_spacing_offset; valCharSpacing.textContent = cfg.char_spacing_offset + 'px'; }
+    if (cfg.random_rotation !== undefined) { sliderRotation.value = cfg.random_rotation; valRotation.textContent = cfg.random_rotation + '°'; }
+    if (cfg.random_line_indent !== undefined) { sliderMarginIndent.value = cfg.random_line_indent; valMarginIndent.textContent = cfg.random_line_indent + 'px'; }
+  }
+
+  function syncWell(target, hex) {
+    document.querySelectorAll(`.ink-well[data-target="${target}"]`).forEach(w => {
+      w.classList.toggle('active', w.dataset.hex && w.dataset.hex.toLowerCase() === hex.toLowerCase());
+    });
+  }
+
+  document.querySelectorAll('#presetTabs .preset-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('#presetTabs .preset-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const p = tab.dataset.preset;
+      if (PRESETS[p]) { applyConfig(PRESETS[p]); toast(`Archetype: ${tab.textContent}`); }
+    });
+  });
+
+  $('btnResetStyles').addEventListener('click', () => {
+    applyConfig(PRESETS.exam);
+    selectPaperBg.value = '0';
+    togglePressure.checked = true;
+    toggleFatigue.checked = true;
+    toggleNormalize.checked = true;
+    document.querySelector('[data-preset="exam"]').classList.add('active');
+    toast('Reset to defaults');
+  });
+
+  /* Ink wells */
+  inputDefaultInk.addEventListener('input', e => {
+    const v = e.target.value;
+    defaultInkPreview.style.backgroundColor = v;
+    labelDefaultInk.textContent = v.toUpperCase();
+    syncWell('default', v);
+  });
+  inputQuoteInk.addEventListener('input', e => {
+    const v = e.target.value;
+    quoteInkPreview.style.backgroundColor = v;
+    labelQuoteInk.textContent = v.toUpperCase();
+    syncWell('quote', v);
+  });
+  document.querySelectorAll('.ink-well[data-target]').forEach(w => {
+    w.addEventListener('click', () => {
+      const { target, hex } = w.dataset;
+      if (!hex) return;
+      if (target === 'default') {
+        inputDefaultInk.value = hex;
+        defaultInkPreview.style.backgroundColor = hex;
+        labelDefaultInk.textContent = hex.toUpperCase();
+        syncWell('default', hex);
+      } else {
+        inputQuoteInk.value = hex;
+        quoteInkPreview.style.backgroundColor = hex;
+        labelQuoteInk.textContent = hex.toUpperCase();
+        syncWell('quote', hex);
+      }
+    });
+  });
+
+  /* Sliders */
+  sliderFontScale.addEventListener('input',    e => { valFontScale.textContent   = parseFloat(e.target.value).toFixed(2) + 'x'; });
+  sliderLineHeight.addEventListener('input',   e => { valLineHeight.textContent  = e.target.value + 'px'; });
+  sliderCharSpacing.addEventListener('input',  e => { valCharSpacing.textContent = e.target.value + 'px'; });
+  sliderRotation.addEventListener('input',     e => { valRotation.textContent    = e.target.value + '°'; });
+  sliderMarginIndent.addEventListener('input', e => { valMarginIndent.textContent= e.target.value + 'px'; });
+
+  /* ── Sample / Upload / Clear ──────────────────────────────────────────── */
+  btnLoadSample.addEventListener('click', async () => {
+    try {
+      const r = await fetch('/api/sample');
+      const d = await r.json();
+      if (d.status === 'success') { inputText.value = d.text; updateStats(); toast('Sample manuscript loaded'); }
+    } catch(err) { toast('Error: ' + err.message); }
+  });
+
+  btnUploadFile.addEventListener('click', () => hiddenFileInput.click());
+  hiddenFileInput.addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+      const r = await fetch('/api/upload', { method: 'POST', body: fd });
+      const d = await r.json();
+      if (d.status === 'success') { inputText.value = d.text; updateStats(); toast(`Imported: ${d.filename}`); }
+      else toast('Upload failed: ' + d.message);
+    } catch(err) { toast('Import error: ' + err.message); }
+    finally { hiddenFileInput.value = ''; }
+  });
+
+  btnClearEditor.addEventListener('click', () => {
+    if (confirm('Clear the composition slate?')) {
+      inputText.value = ''; updateStats(); toast('Slate cleared');
     }
   });
 
+  /* ── Drag & Drop ──────────────────────────────────────────────────────── */
+  const editorZone = $('editorDropZone');
+  const dragOverlay = $('dragDropOverlay');
+  ['dragenter','dragover'].forEach(ev => editorZone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dragOverlay.classList.add('active'); }));
+  ['dragleave','drop'].forEach(ev => editorZone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dragOverlay.classList.remove('active'); }));
+  editorZone.addEventListener('drop', async e => {
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+      const r = await fetch('/api/upload', { method:'POST', body:fd });
+      const d = await r.json();
+      if (d.status === 'success') { inputText.value = d.text; updateStats(); toast(`Imported: ${d.filename}`); }
+    } catch(err) { toast('Drop error: ' + err.message); }
+  });
+
+  /* ── Render ───────────────────────────────────────────────────────────── */
+  function getConfig() {
+    return {
+      default_ink_color:  inputDefaultInk.value,
+      quote_ink_color:    inputQuoteInk.value,
+      background_choice:  parseInt(selectPaperBg.value, 10),
+      font_scale:         parseFloat(sliderFontScale.value),
+      line_height:        parseInt(sliderLineHeight.value, 10),
+      char_spacing_offset:parseInt(sliderCharSpacing.value, 10),
+      random_rotation:    parseFloat(sliderRotation.value),
+      random_line_indent: parseInt(sliderMarginIndent.value, 10),
+      enable_pressure:    togglePressure.checked,
+      enable_fatigue:     toggleFatigue.checked,
+    };
+  }
+
+  async function triggerRender(previewOnly = false) {
+    const text = inputText.value.trim();
+    if (!text) { toast('Compose some text first'); inputText.focus(); return; }
+    if (state.isRendering) return;
+    state.isRendering = true;
+
+    loaderStatusMsg.textContent = previewOnly ? 'Proofing page 1…' : 'Inscribing manuscript…';
+    loadingGlassOverlay.classList.add('active');
+
+    try {
+      const payload = {
+        text,
+        config: getConfig(),
+        preview_only: previewOnly,
+        auto_normalize: toggleNormalize.checked,
+      };
+      const res = await fetch('/api/render', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        state.sessionId   = data.session_id;
+        state.totalPages  = data.total_pages;
+        state.pages       = data.pages;
+        state.currentPage = 1;
+
+        const badge = document.getElementById('renderPerfBadgeInner');
+        badge.textContent = data.render_time_sec + 's';
+        badge.style.display = '';
+
+        displayPage(1);
+        buildFilmstrip();
+
+        emptyStateWrap.style.display = 'none';
+        pageStageWrapper.classList.add('visible');
+        filmstripContainer.classList.add('visible');
+        exportActionGroup.classList.add('visible');
+        btnGenerateAllCanvas.style.display = '';
+
+        toast(previewOnly ? 'Preview ready' : `${data.total_pages} sheet${data.total_pages > 1 ? 's' : ''} inscribed in ${data.render_time_sec}s`);
+      } else {
+        toast('Render failed: ' + data.message);
+      }
+    } catch(err) {
+      toast('Connection error: ' + err.message);
+    } finally {
+      state.isRendering = false;
+      loadingGlassOverlay.classList.remove('active');
+    }
+  }
+
+  /* ── Page display ─────────────────────────────────────────────────────── */
+  function displayPage(num) {
+    if (!state.pages.length || num < 1 || num > state.pages.length) return;
+    state.currentPage = num;
+    mainDisplayPage.src = state.pages[num - 1].url;
+    pageStepLabel.textContent = `Sheet ${num} / ${state.totalPages}`;
+
+    document.querySelectorAll('.thumb-card').forEach((c, i) => {
+      c.classList.toggle('active', i + 1 === num);
+      if (i + 1 === num) c.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+    });
+  }
+
+  /* ── Filmstrip ────────────────────────────────────────────────────────── */
+  function buildFilmstrip() {
+    thumbnailFilmstrip.innerHTML = '';
+    state.pages.forEach((page, idx) => {
+      const card = document.createElement('div');
+      card.className = `thumb-card ${idx === 0 ? 'active' : ''}`;
+      card.title = `Sheet ${page.page_num}`;
+
+      const img = document.createElement('img');
+      img.src = page.thumb_url;
+      img.alt = `Sheet ${page.page_num}`;
+
+      const num = document.createElement('span');
+      num.className = 'thumb-num';
+      num.textContent = page.page_num;
+
+      card.appendChild(img);
+      card.appendChild(num);
+      card.addEventListener('click', () => displayPage(page.page_num));
+      thumbnailFilmstrip.appendChild(card);
+    });
+  }
+
+  /* ── Page nav ─────────────────────────────────────────────────────────── */
+  $('btnPrevPage').addEventListener('click', () => { if (state.currentPage > 1) displayPage(state.currentPage - 1); });
+  $('btnNextPage').addEventListener('click', () => { if (state.currentPage < state.totalPages) displayPage(state.currentPage + 1); });
+
+  /* ── Zoom ─────────────────────────────────────────────────────────────── */
+  function applyZoom(z) {
+    state.zoom = Math.max(0.4, Math.min(3.0, z));
+    pageStageWrapper.style.transform = `scale(${state.zoom})`;
+    $('zoomValueText').textContent = Math.round(state.zoom * 100) + '%';
+  }
+  $('btnZoomIn').addEventListener('click',    () => applyZoom(state.zoom + 0.15));
+  $('btnZoomOut').addEventListener('click',   () => applyZoom(state.zoom - 0.15));
+  $('btnZoomReset').addEventListener('click', () => applyZoom(1.0));
+
+  /* Scroll-to-zoom on preview stage */
+  $('previewStage').addEventListener('wheel', e => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      applyZoom(state.zoom - e.deltaY * 0.002);
+    }
+  }, { passive: false });
+
+  /* ── Lightbox ─────────────────────────────────────────────────────────── */
+  mainDisplayPage.addEventListener('click', () => {
+    if (mainDisplayPage.src) { lightboxZoomImg.src = mainDisplayPage.src; lightboxScrim.classList.add('active'); }
+  });
+  $('btnFullscreen').addEventListener('click', () => {
+    if (mainDisplayPage.src) { lightboxZoomImg.src = mainDisplayPage.src; lightboxScrim.classList.add('active'); }
+  });
+  $('btnCloseLightbox').addEventListener('click', () => lightboxScrim.classList.remove('active'));
+  lightboxScrim.addEventListener('click', e => { if (e.target === lightboxScrim) lightboxScrim.classList.remove('active'); });
+
+  /* ── Exports ──────────────────────────────────────────────────────────── */
+  $('btnExportPdf').addEventListener('click', () => {
+    if (!state.sessionId) return;
+    toast('Compiling PDF…');
+    window.location.href = `/api/download/pdf/${state.sessionId}?name=handwritten_manuscript.pdf`;
+  });
+  $('btnExportZip').addEventListener('click', () => {
+    if (!state.sessionId) return;
+    toast('Bundling ZIP archive…');
+    window.location.href = `/api/download/zip/${state.sessionId}?name=handwritten_folio.zip`;
+  });
+  $('btnExportPng').addEventListener('click', () => {
+    if (!state.sessionId) return;
+    window.location.href = `/api/download/page/${state.sessionId}/${state.currentPage}`;
+  });
+
+  /* ── Modals ───────────────────────────────────────────────────────────── */
+  $('btnCloseSyntaxModal').addEventListener('click', () => syntaxModalScrim.classList.remove('active'));
+  syntaxModalScrim.addEventListener('click', e => { if (e.target === syntaxModalScrim) syntaxModalScrim.classList.remove('active'); });
+
+  /* ── Wire up all generate buttons ────────────────────────────────────── */
+  btnGenerateAll.addEventListener('click',       () => triggerRender(false));
+  btnGenerateAllCanvas.addEventListener('click', () => triggerRender(false));
+  btnEmptyGenerate.addEventListener('click',     () => triggerRender(false));
+  btnEmptyPreview.addEventListener('click',      () => triggerRender(true));
+  btnFastPreview.addEventListener('click',       () => triggerRender(true));
+
+  /* ── Resize handle ────────────────────────────────────────────────────── */
+  const resizeHandle = $('resizeHandle');
+  const paneCompose  = document.querySelector('.pane-compose');
+  let resizing = false, resizeStartX = 0, resizeStartW = 0;
+
+  resizeHandle.addEventListener('mousedown', e => {
+    resizing = true;
+    resizeStartX = e.clientX;
+    resizeStartW = paneCompose.offsetWidth;
+    resizeHandle.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!resizing) return;
+    const newW = Math.max(280, Math.min(640, resizeStartW + (e.clientX - resizeStartX)));
+    paneCompose.style.width = newW + 'px';
+  });
+  document.addEventListener('mouseup', () => {
+    if (!resizing) return;
+    resizing = false;
+    resizeHandle.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+
+  /* ── Auto-load sample on start ────────────────────────────────────────── */
   window.addEventListener('DOMContentLoaded', () => {
     btnLoadSample.click();
+    updateStats();
   });
 </script>
-
 </body>
 </html>
