@@ -50,8 +50,8 @@ def get_sample_text():
 
     # Fallback sample if test.txt is absent
     fallback = (
-        "Name:|Mishal ahamed|\n"
-        "Reg no:|261MCANO135|\n"
+        "Name:|Alex Morgan|\n"
+        "Reg no:|REG-2026-0042|\n"
         "Subject:|Software Project Management|\n"
         "Date:|21.11.2026|\n\n"
         "||SECTION - A||\n\n"

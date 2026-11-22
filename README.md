@@ -133,8 +133,8 @@ Handwriting Studio uses intuitive, lightweight formatting markup:
 ### Example Input Document
 
 ```text
-Name:|Mishal Ahamed|
-Reg no:|261MCAN0135|
+Name:|Alex Morgan|
+Reg no:|REG-2026-0042|
 Subject:|Software Project Management|
 Date:|22.11.2026|
 
