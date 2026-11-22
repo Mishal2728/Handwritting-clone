@@ -151,22 +151,32 @@ def get_page(session_id: str, page_num: int):
 
     page = pages[page_num - 1]
     is_thumb = request.args.get('thumb') == '1'
+    cache_key = "thumb_cache" if is_thumb else "page_cache"
+    cache = session.setdefault(cache_key, {})
 
-    buf = io.BytesIO()
-    if is_thumb:
-        # Resize thumbnail to width 360
-        ratio = 360 / float(page.width)
-        thumb_size = (360, int(page.height * ratio))
-        thumb = page.resize(thumb_size, resample=Image.BILINEAR)
-        thumb.convert("RGB").save(buf, format="JPEG", quality=80)
+    if page_num in cache:
+        buf = io.BytesIO(cache[page_num])
         mimetype = "image/jpeg"
     else:
-        # High quality JPEG for preview
-        page.convert("RGB").save(buf, format="JPEG", quality=92)
-        mimetype = "image/jpeg"
+        buf = io.BytesIO()
+        if is_thumb:
+            # Resize thumbnail to width 360
+            ratio = 360 / float(page.width)
+            thumb_size = (360, int(page.height * ratio))
+            thumb = page.resize(thumb_size, resample=Image.BILINEAR)
+            thumb.convert("RGB").save(buf, format="JPEG", quality=80)
+            mimetype = "image/jpeg"
+        else:
+            # High quality JPEG for preview
+            page.convert("RGB").save(buf, format="JPEG", quality=92)
+            mimetype = "image/jpeg"
 
-    buf.seek(0)
-    return send_file(buf, mimetype=mimetype)
+        cache[page_num] = buf.getvalue()
+        buf.seek(0)
+
+    response = send_file(buf, mimetype=mimetype)
+    response.headers["Cache-Control"] = "public, max-age=3600"
+    return response
 
 
 @app.route('/api/download/pdf/<session_id>')

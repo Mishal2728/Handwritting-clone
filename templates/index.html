@@ -958,49 +958,99 @@
       flex-shrink: 0;
       border-top: 1px solid var(--rule);
       background: var(--ink);
-      padding: 10px 16px;
+      padding: 10px 18px 12px;
       display: none;
     }
     .filmstrip-container.visible { display: block; }
+    .filmstrip-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
     .filmstrip-label {
       font-family: var(--ff-mono);
-      font-size: 8px;
-      letter-spacing: 0.16em;
+      font-size: 8.5px;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
+      color: var(--ash);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .filmstrip-label svg {
+      color: var(--crimson);
+    }
+    .filmstrip-hint {
+      font-family: var(--ff-mono);
+      font-size: 8px;
       color: var(--ash-mid);
-      margin-bottom: 8px;
+      letter-spacing: 0.04em;
     }
     .filmstrip {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       overflow-x: auto;
-      scrollbar-width: none;
+      padding: 2px 2px 6px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ink-soft) transparent;
     }
-    .filmstrip::-webkit-scrollbar { display: none; }
+    .filmstrip::-webkit-scrollbar { height: 4px; }
+    .filmstrip::-webkit-scrollbar-thumb { background: var(--ink-soft); }
 
     .thumb-card {
       flex-shrink: 0;
+      width: 48px;
+      height: 66px;
       cursor: pointer;
       position: relative;
-      border: 1px solid var(--rule);
-      transition: all 0.14s;
+      background: #ffffff;
+      border: 1.5px solid var(--rule-mid);
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+      transition: all 0.15s var(--ease-snap);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .thumb-card img {
-      display: block;
-      height: 60px;
-      width: auto;
+    .thumb-card:hover {
+      border-color: var(--rule-focus);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
     }
-    .thumb-card:hover { border-color: var(--rule-focus); }
     .thumb-card.active {
       border-color: var(--crimson);
-      box-shadow: 0 0 0 1px var(--crimson);
+      box-shadow: 0 0 0 1.5px var(--crimson), 0 4px 12px var(--crimson-glow);
+      transform: translateY(-2px);
+    }
+    .thumb-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #fbf9f4;
     }
     .thumb-num {
       position: absolute;
-      bottom: 2px; right: 4px;
+      bottom: 2px;
+      right: 2px;
       font-family: var(--ff-mono);
       font-size: 8px;
-      color: rgba(255,255,255,0.5);
+      font-weight: 700;
+      color: #ffffff;
+      background: rgba(10, 10, 10, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 1px 4px;
+      border-radius: 2px;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .thumb-fallback {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: #333;
     }
 
     /* ═══ EXPORT ROW (shows after render) ══════════════════════════════════ */
@@ -1640,7 +1690,17 @@
 
       <!-- Filmstrip -->
       <div class="filmstrip-container" id="filmstripContainer">
-        <div class="filmstrip-label">All Sheets</div>
+        <div class="filmstrip-header">
+          <span class="filmstrip-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="3" y1="9" x2="21" y2="9"/>
+              <line x1="9" y1="21" x2="9" y2="9"/>
+            </svg>
+            All Sheets (<span id="filmstripCount">0</span>)
+          </span>
+          <span class="filmstrip-hint">Click sheet to view</span>
+        </div>
         <div class="filmstrip" id="thumbnailFilmstrip"></div>
       </div>
     </section>
@@ -2155,14 +2215,25 @@
   /* ── Filmstrip ────────────────────────────────────────────────────────── */
   function buildFilmstrip() {
     thumbnailFilmstrip.innerHTML = '';
+    const countEl = $('filmstripCount');
+    if (countEl) countEl.textContent = state.totalPages;
+
     state.pages.forEach((page, idx) => {
       const card = document.createElement('div');
       card.className = `thumb-card ${idx === 0 ? 'active' : ''}`;
-      card.title = `Sheet ${page.page_num}`;
+      card.title = `View Sheet ${page.page_num}`;
 
       const img = document.createElement('img');
+      img.loading = 'eager';
       img.src = page.thumb_url;
       img.alt = `Sheet ${page.page_num}`;
+      img.onerror = function() {
+        this.style.display = 'none';
+        const fb = document.createElement('div');
+        fb.className = 'thumb-fallback';
+        fb.textContent = `P.${page.page_num}`;
+        card.insertBefore(fb, card.firstChild);
+      };
 
       const num = document.createElement('span');
       num.className = 'thumb-num';
