@@ -3,6 +3,7 @@ import sys
 import time
 import uuid
 import io
+import base64
 from typing import Dict, Any
 from flask import Flask, render_template, request, jsonify, send_file, Response
 from PIL import Image
@@ -113,21 +114,42 @@ def render_handwriting():
     elapsed = round(time.time() - start_time, 2)
     session_id = str(uuid.uuid4())
 
+    thumb_cache = {}
+    page_cache = {}
+    page_urls = []
+
+    for i, page in enumerate(pages, 1):
+        # Ultra-fast downsample (width 140, Image.BOX, JPEG q=60) ~2.9 KB
+        ratio = 140 / float(page.width)
+        thumb_size = (140, int(page.height * ratio))
+        thumb = page.resize(thumb_size, resample=Image.BOX)
+        t_buf = io.BytesIO()
+        thumb.convert("RGB").save(t_buf, format="JPEG", quality=60)
+        t_bytes = t_buf.getvalue()
+        thumb_cache[i] = t_bytes
+        b64_thumb = "data:image/jpeg;base64," + base64.b64encode(t_bytes).decode("ascii")
+
+        page_urls.append({
+            "page_num": i,
+            "url": f"/api/page/{session_id}/{i}",
+            "thumb_url": f"/api/page/{session_id}/{i}?thumb=1",
+            "thumb_data": b64_thumb
+        })
+
+    # Pre-cache Page 1 preview for instant first render
+    if pages:
+        p1_buf = io.BytesIO()
+        pages[0].convert("RGB").save(p1_buf, format="JPEG", quality=80)
+        page_cache[1] = p1_buf.getvalue()
+
     SESSIONS[session_id] = {
         "pages": pages,
         "created_at": time.time(),
         "config": cfg_dict,
-        "text_length": len(text)
+        "text_length": len(text),
+        "thumb_cache": thumb_cache,
+        "page_cache": page_cache
     }
-
-    page_urls = [
-        {
-            "page_num": i,
-            "url": f"/api/page/{session_id}/{i}",
-            "thumb_url": f"/api/page/{session_id}/{i}?thumb=1"
-        }
-        for i in range(1, len(pages) + 1)
-    ]
 
     return jsonify({
         "status": "success",
@@ -156,25 +178,20 @@ def get_page(session_id: str, page_num: int):
 
     if page_num in cache:
         buf = io.BytesIO(cache[page_num])
-        mimetype = "image/jpeg"
     else:
         buf = io.BytesIO()
         if is_thumb:
-            # Resize thumbnail to width 360
-            ratio = 360 / float(page.width)
-            thumb_size = (360, int(page.height * ratio))
-            thumb = page.resize(thumb_size, resample=Image.BILINEAR)
-            thumb.convert("RGB").save(buf, format="JPEG", quality=80)
-            mimetype = "image/jpeg"
+            ratio = 140 / float(page.width)
+            thumb_size = (140, int(page.height * ratio))
+            thumb = page.resize(thumb_size, resample=Image.BOX)
+            thumb.convert("RGB").save(buf, format="JPEG", quality=60)
         else:
-            # High quality JPEG for preview
-            page.convert("RGB").save(buf, format="JPEG", quality=92)
-            mimetype = "image/jpeg"
+            page.convert("RGB").save(buf, format="JPEG", quality=80)
 
         cache[page_num] = buf.getvalue()
         buf.seek(0)
 
-    response = send_file(buf, mimetype=mimetype)
+    response = send_file(buf, mimetype="image/jpeg")
     response.headers["Cache-Control"] = "public, max-age=3600"
     return response
 
