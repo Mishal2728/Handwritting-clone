@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Output / generated files
+output_preview/
+output.png
+*_output.pdf
+test_page*.png

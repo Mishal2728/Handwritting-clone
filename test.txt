@@ -1,0 +1,192 @@
+Name:|Mishal ahamed|
+Reg no:|261MCANO135|
+Subject:|Software project management|
+Date:|21.11.2026|
+
+||SECTION – A||
+
+$1) b) |Reliability|
+$2) a) |Validation|
+$3) a) |Development|
+$4) c) |Project Management Life Cycle|
+
+||SECTION – B||
+
+$5) A) Explain why Software Engineering is called a layered technology.
+|Software Engineering is called a layered technology because it consists of four layers that work together to develop quality software.|
+Four Layers of Software Engineering:
+
+$I. Quality Focus
+|Quality is the foundation of Software Engineering.
+It ensures that software meets customer requirements.
+It improves reliability and customer satisfaction.|
+
+
+$II. Process
+|Process provides a framework for software development.
+It includes communication, planning, modelling, construction and deployment.
+It helps complete the project systematically.|
+
+$III. Methods
+|Methods provide technical steps for software development.
+They include requirement analysis, design, coding and testing.
+They help developers produce effective software.|
+
+$IV. Tools
+|Tools support software development activities.
+They reduce manual work and save time.
+Examples include programming, testing and project management tools.|
+
+Advantages:
+$I. |Improves software quality.|
+$II. |Reduces development errors.|
+$III. |Saves time and cost.|
+$IV. |Provides systematic development.|
+$V. |Improves productivity.|
+
+Conclusion:
+|Layered Technology provides a strong foundation for Software Engineering. All four layers work together to develop reliable and high-quality software.|
+
+$6)A) Explain Software Project Management and its needs.
+|Software Project Management is the process of planning, organising, monitoring and controlling software development activities. It helps complete projects within the given time and budget.|
+
+Needs for Software Project Management
+$I. Proper Planning
+|Identifies project objectives and requirements.
+Provides a clear direction for development.|
+
+$II. Time Management
+|Prepares schedules for project activities.
+Ensures timely project completion.|
+
+$III. Cost Management
+|Estimates and controls project expenses.
+Avoids unnecessary spending.|
+
+$IV. Resource Management
+|Allocates employees, hardware and software properly.
+Prevents wastage of resources.|
+
+
+$V. Risk Management
+|Identifies possible project problems.
+Helps prepare solutions to reduce risks.|
+
+$VI. Quality Management
+|Ensures that software meets customer requirements.
+Improves reliability through testing.|
+
+$VII. Team Coordination
+|Improves communication among team members.
+Clearly assigns roles and responsibilities.|
+
+$VIII. Customer Satisfaction
+|Understands customer expectations.
+Ensures delivery of the required software.|
+
+$IX. Monitoring and Controlling
+|Checks project progress regularly.
+Takes corrective action when necessary.|
+
+Conclusion:
+|Software Project Management is necessary for successful software development. It helps control time, cost, quality and resources while ensuring customer satisfaction.|
+
+
+
+
+||SECTION C||
+$7) Explain Stepwise Project Planning.
+|Stepwise Project Planning is a systematic method used to plan and manage software projects. It involves identifying objectives, estimating resources, preparing schedules and controlling project activities.|
+
+Steps in Stepwise Project Planning:
+
+$I. Step 1: Select the Project
+|Identify and select the project.
+Understand its purpose and business objectives.
+Check whether the project is technically and economically possible.|
+
+$II. Step 2: Identify Project Scope and Objectives
+|Define the project boundaries.
+Identify customer requirements.
+List the features and functions of software.|
+
+$III. Step 3: Identify Project Infrastructure
+|Identify the resources required.
+Select the development tools and technology.
+Assign roles and responsibilities to team members.|
+
+
+
+$IV. Step 4: Analyse Project Characteristics
+|Study the size and complexity of the project.
+Identify technical difficulties.
+Analyse possible risks and limitations.|
+
+$V. Step 5: Identify Project Products and Activities
+|Identify the expected project deliverables.
+Divide the project into smaller activities.
+Prepare a list of tasks such as design, coding and testing.|
+
+$VI. Step 6: Estimate Effort and Duration
+|Estimate the work required to complete the project.
+Calculate the time and cost.
+Identify the number of employees required.|
+
+$VII. Step 7: Review and Execute the Plan
+|Review the final project plan.
+Check the schedule, budget and resources.
+Monitor project progress and make changes when necessary.|
+
+Advantages:
+$I. |Provides systematic project planning.|
+$II. |Helps identify requirements clearly.|
+$III. |Helps identify risks early.|
+$IV. |Improves team coordination.|
+$V. |Increases project success.|
+
+$9) Explain Software Effort Estimation.
+|Software Effort Estimation is the process of predicting the amount of work required to develop software. It helps estimate the time, cost, employees and resources needed to complete a project.|
+Objectives of Software Effort Estimation:
+
+$I. |To estimate development effort.|
+$II. |To calculate project cost.|
+$III. |To determine project duration.|
+$IV. |To allocate required resources.|
+$V. |To prepare project schedules.|
+$VI. |To reduce project risks.|
+
+Factors Affecting Software Effort Estimation:
+
+$I. |Project Size.|
+$II. |Project Complexity.|
+$III. |Team Experience.|
+$IV. |Technology.|
+$V. |Resources.|
+
+
+
+Techniques of Software Effort Estimation:
+
+$I. |Expert Judgment.|
+$II. |Estimation by Analogy.|
+$III. |Top-Down Estimation.|
+$IV. |Bottom-Up Estimation.|
+$V. |Algorithmic Estimation.|
+
+Steps in Software Effort Estimation:
+
+$I. |Understand project reqirements.|
+$II. |Identify project size and complexity.|
+$III. |Select a suitable estimation technique.|
+$IV. |Estimate development effort.|
+$V. |Calculate project duration and cost.|
+$VI. |Review and update the estimation.|
+
+Advantages:
+
+$I. |Helps in project scheduling.|
+$II. |Supports budget planning.|
+$III. |Improves resource allocation.|
+$IV. |Reduces unnecessary expenses.|
+$V. |Helps complete projects on time.|
+$VI. |Improves project management.|
