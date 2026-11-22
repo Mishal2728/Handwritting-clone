@@ -17,7 +17,7 @@ class Config:
 
     # Layout Margins
     margin_left: int = 230
-    margin_right: int = 40  # Right side edge varaikkum use pannikura maadhiri
+    margin_right: int = 40  # Extends layout use toward the right edge
     margin_top: int = 60
     margin_bottom: int = 60
     line_height: int = 110
@@ -120,7 +120,7 @@ class GlyphManager:
         return max(1, base_w + self.config.char_spacing_offset)
 
     def measure_word_width(self, word: str) -> int:
-        # '|' characters display aagadha width calculation-la
+        # Exclude '|' delimiter character from width calculation
         clean_word = word.replace("|", "")
         return sum(self.char_pixel_width(ch) for ch in clean_word)
 
